@@ -1,0 +1,80 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Next.js build output
+.next/
+out/
+build/
+dist/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Unused static HTML and assets (not part of Next.js app)
+scripttemplates/
+lp/
+giftCard/
+diy/
+cdn/
+cd/
+cc/
+images/
+css/
+fonts/
+
+# Unused static files
+webcopy-origin.txt
+signin.html
+NotFound.html
+index.htm
+ruxitagentjs_*.js
+safari-pinned-tab.svg
+apple-touch-icon.png
+favicon-16x16.png
+favicon-32x32.png
+favicon.ico
+
+# Supabase local development
+.supabase/
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
