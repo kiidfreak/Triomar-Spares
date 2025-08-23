@@ -19,9 +19,9 @@ export default function SupabaseProvider({
   children: React.ReactNode
 }) {
            const [supabase] = useState(() => {
-           // Use the actual Supabase credentials
-           const url = 'https://rjgooqmfjkfsyjqhdwp.supabase.co'
-           const key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqZ29vcW1mamtmc3lqeXFoZHdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2MjQ0NzksImV4cCI6MjA2NzIwMDQ3OX0.OejmlFf9fwE-Tpl4DEzNW2NsMZnSfWnzJEkrPhupL1Y'
+           // Use environment variables for Supabase credentials (with fallbacks for development)
+           const url = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://rjgooqmfjkfsyjqhdwp.supabase.co'
+           const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqZ29vcW1mamtmc3lqeXFoZHdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2MjQ0NzksImV4cCI6MjA2NzIwMDQ3OX0.OejmlFf9fwE-Tpl4DEzNW2NsMZnSfWnzJEkrPhupL1Y'
 
            return createBrowserClient<Database>(url, key)
          })
