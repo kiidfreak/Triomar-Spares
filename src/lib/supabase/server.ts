@@ -6,20 +6,27 @@ export function createClient() {
   const cookieStore = cookies()
 
   return createServerClient<Database>(
-    'https://rjgooqmfjkfsyjqhdwp.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqZ29vcW1mamtmc3lqeXFoZHdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2MjQ0NzksImV4cCI6MjA2NzIwMDQ3OX0.OejmlFf9fwE-Tpl4DEzNW2NsMZnSfWnzJEkrPhupL1Y',
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        getAll() {
-          return cookieStore.getAll()
+        get(name: string) {
+          return cookieStore.get(name)?.value
         },
-        setAll(cookiesToSet) {
+        set(name: string, value: string, options: any) {
           try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            )
+            cookieStore.set(name, value, options)
           } catch {
-            // The `setAll` method was called from a Server Component.
+            // The `set` method was called from a Server Component.
+            // This can be ignored if you have middleware refreshing
+            // user sessions.
+          }
+        },
+        remove(name: string, options: any) {
+          try {
+            cookieStore.set(name, '', { ...options, maxAge: 0 })
+          } catch {
+            // The `remove` method was called from a Server Component.
             // This can be ignored if you have middleware refreshing
             // user sessions.
           }
