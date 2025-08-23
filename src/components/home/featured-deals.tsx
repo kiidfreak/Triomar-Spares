@@ -8,7 +8,7 @@ const featuredDeals = [
     id: 1,
     title: "STP Filter Bundle Deal",
     subtitle: "Get an STP Air Filter, STP Cabin Air Filter, & STP Extended Life Oil Filter for KSH 4,999",
-    image: "/images/2s-stp-1-d.webp",
+    image: "/images/Only 4999.png",
     link: "/deals",
     alt: "STP Filter Bundle",
     note: "Sales tax not included"
@@ -17,7 +17,7 @@ const featuredDeals = [
     id: 2,
     title: "STP Regular Filter Bundle",
     subtitle: "Get an STP Air Filter, STP Cabin Air Filter, & STP Oil Filter for KSH 3,999",
-    image: "/images/2s-stp-2-d.webp",
+    image: "/images/Only 3999.png",
     link: "/deals",
     alt: "STP Regular Filters"
   },
@@ -25,7 +25,7 @@ const featuredDeals = [
     id: 3,
     title: "Lucas Fuel Treatment",
     subtitle: "2 for KSH 1,200 Lucas Fuel Treatment",
-    image: "/images/product-1-d.webp",
+    image: "/images/2 for 800.png",
     link: "/deals",
     alt: "Lucas Fuel Treatment",
     note: "Must buy 2"
@@ -34,7 +34,7 @@ const featuredDeals = [
     id: 4,
     title: "ProElite Microfiber Towels",
     subtitle: "Save KSH 800 on ProElite Microfiber Towels 6 pack",
-    image: "/images/product-2-d.webp",
+    image: "/images/save 800.png",
     link: "/deals",
     alt: "ProElite Microfiber Towels"
   },
@@ -42,7 +42,7 @@ const featuredDeals = [
     id: 5,
     title: "Duralast Wrench Set",
     subtitle: "Save KSH 700 on Duralast Socket Wrench Set",
-    image: "/images/product-3-d.webp",
+    image: "/images/save 700.png",
     link: "/deals",
     alt: "Duralast Wrench Set"
   }
