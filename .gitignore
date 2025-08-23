@@ -56,7 +56,8 @@ cdn/
 cd/
 cc/
 # Note: public/images/ is needed for Next.js app - only exclude root-level images/
-images/
+# Exclude root-level images folder, but keep public/images/ for Next.js app
+/images/
 css/
 fonts/
 

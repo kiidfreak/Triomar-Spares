@@ -8,14 +8,6 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 const horizontalCards = [
   {
     id: 1,
-    title: "SHOP LOCAL STORE DEALS",
-    subtitle: "View your monthly ad",
-    image: "/images/localstore.jpeg",
-    link: "/circular",
-    alt: "Monthly Store Deals"
-  },
-  {
-    id: 2,
     title: "OIL AND FILTER DEALS",
     subtitle: "Bundle and save up to KSH 3,200",
     image: "/images/oilfilterdeals.jpeg",
@@ -23,7 +15,7 @@ const horizontalCards = [
     alt: "Oil Change Specials"
   },
   {
-    id: 3,
+    id: 2,
     title: "GEAR UP WITH SAVINGS",
     subtitle: "Stay ready this back-to-school season",
     image: "/images/gearupsavings.jpeg",
@@ -31,7 +23,7 @@ const horizontalCards = [
     alt: "Back to School Deals"
   },
   {
-    id: 4,
+    id: 3,
     title: "GET IT FAST",
     subtitle: "Pick up in-store today, or get it quickly with Same Day Delivery",
     image: "/images/getitfast.jpeg",
@@ -39,7 +31,7 @@ const horizontalCards = [
     alt: "Fast Delivery Options"
   },
   {
-    id: 5,
+    id: 4,
     title: "HAVE A JOB?",
     subtitle: "Check out step-by-step guides and solutions",
     image: "/images/haveajob.jpeg",
@@ -47,7 +39,7 @@ const horizontalCards = [
     alt: "DIY Repair Guides"
   },
   {
-    id: 6,
+    id: 5,
     title: "ENGINE LIGHT ON?",
     subtitle: "We'll check it and give you a free Fix Finder report.",
     image: "/images/enginelighton.webp",
@@ -55,7 +47,7 @@ const horizontalCards = [
     alt: "Fix Finder Service"
   },
   {
-    id: 7,
+    id: 6,
     title: "FULL BATTERY SERVICE",
     subtitle: "Free testing and charging in-store",
     image: "/images/fullbattery.jpeg",
