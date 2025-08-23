@@ -18,9 +18,9 @@ export function Header() {
   const { state: cartState, toggleCart, closeCart } = useCart()
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b-4 border-red-600 bg-black text-white backdrop-blur supports-[backdrop-filter]:bg-black/95">
       {/* Top promo bar */}
-      <div className="bg-orange-500 text-white">
+      <div className="bg-red-600 text-white">
         <div className="container mx-auto px-4 py-2">
           <div className="text-center text-sm font-medium">
             <Link href="/deals" className="hover:text-white/90 transition-colors">
@@ -31,24 +31,24 @@ export function Header() {
       </div>
 
       {/* Top bar with contact info */}
-      <div className="bg-primary text-primary-foreground">
+      <div className="bg-gray-900 text-white">
         <div className="container mx-auto px-4 py-2">
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center space-x-6">
               <div className="flex items-center space-x-2">
-                <Phone className="h-4 w-4" />
+                <Phone className="h-4 w-4 text-red-500" />
                 <span>+44 7349 013628</span>
               </div>
               <div className="flex items-center space-x-2">
-                <MapPin className="h-4 w-4" />
+                <MapPin className="h-4 w-4 text-red-500" />
                 <span>34 Lillington Close, M22 1LY, Manchester</span>
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Link href="/help" className="hover:text-primary-foreground/80">
+              <Link href="/help" className="hover:text-red-400 transition-colors">
                 Help & Support
               </Link>
-              <Link href="/contact" className="hover:text-primary-foreground/80">
+              <Link href="/contact" className="hover:text-red-400 transition-colors">
                 Contact Us
               </Link>
             </div>
@@ -62,7 +62,7 @@ export function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
             <div className="flex items-center space-x-2">
-              <div className="text-2xl font-bold text-primary">Triomah Spares</div>
+              <div className="text-2xl font-bold text-red-500">Triomah Spares</div>
               {/* <div className="text-sm text-muted-foreground">Ltd</div> */}
             </div>
           </Link>
@@ -71,41 +71,41 @@ export function Header() {
           <nav className="hidden lg:block">
             <ul className="flex items-center space-x-4 py-3 text-sm font-medium">
               <li className="relative group">
-                <button className="flex items-center space-x-1 hover:text-primary transition-colors whitespace-nowrap">
+                <button className="flex items-center space-x-1 hover:text-red-400 transition-colors whitespace-nowrap">
                   <span>Our Vehicles</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
-                <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div className="absolute top-full left-0 mt-2 w-48 bg-white border-2 border-red-500 rounded-md shadow-garage opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                   <div className="py-2">
-                    <Link href="/vehicles" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <Link href="/vehicles" className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50">
                       All Vehicles
                     </Link>
-                    <Link href="/categories/mazda-cx5" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <Link href="/categories/mazda-cx5" className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50">
                       Mazda CX-5
                     </Link>
-                    <Link href="/categories/nissan-xtrail" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <Link href="/categories/nissan-xtrail" className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50">
                       Nissan X-Trail
                     </Link>
-                    <Link href="/categories/toyota-prado" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <Link href="/categories/toyota-prado" className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50">
                       Toyota Prado
                     </Link>
                   </div>
                 </div>
               </li>
               <li>
-                <Link href="/categories/engine-filters" className="hover:text-primary transition-colors whitespace-nowrap">
+                <Link href="/categories/engine-filters" className="hover:text-red-400 transition-colors whitespace-nowrap">
                   Engine & Filters
                 </Link>
               </li>
               <li>
-                <Link href="/categories/brakes-suspension" className="hover:text-primary transition-colors whitespace-nowrap">
+                <Link href="/categories/brakes-suspension" className="hover:text-red-400 transition-colors whitespace-nowrap">
                   Brakes & Suspension
                 </Link>
               </li>
               <li>
-                <Link href="/categories/electrical" className="hover:text-primary transition-colors whitespace-nowrap">
+                <Link href="/categories/electrical" className="hover:text-red-400 transition-colors whitespace-nowrap">
                   Electrical
                 </Link>
               </li>
@@ -125,11 +125,11 @@ export function Header() {
             {/* Cart */}
             <button
               onClick={() => toggleCart()}
-              className="relative p-2 hover:bg-muted rounded-md transition-colors"
+              className="relative p-2 hover:bg-gray-800 rounded-md transition-colors"
               aria-label="Shopping cart"
             >
               <ShoppingCart className="h-6 w-6" />
-              <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                 {cartState.items.length}
               </span>
             </button>
@@ -137,7 +137,7 @@ export function Header() {
             {/* Mobile menu button */}
             <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className="lg:hidden p-2 hover:bg-muted rounded-md transition-colors"
+              className="lg:hidden p-2 hover:bg-gray-800 rounded-md transition-colors"
               aria-label="Toggle mobile menu"
             >
               <Menu className="h-6 w-6" />

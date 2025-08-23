@@ -1,7 +1,11 @@
+'use client'
+
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowLeft, Package, Truck, Clock } from 'lucide-react'
+import { ArrowLeft, Truck, Package, Clock } from 'lucide-react'
+import { useCart } from '@/components/cart/cart-context'
+import toast from 'react-hot-toast'
 
 // Mock category data - in real app this would come from Supabase
 const categories = {
@@ -83,6 +87,20 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
     notFound()
   }
 
+  const { addItem } = useCart()
+
+  const handleAddToCart = (part: any) => {
+    addItem({
+      id: part.id,
+      name: part.name,
+      price: part.price,
+      image: part.image,
+      partNumber: `CAT-${part.id}`,
+      sku: `SKU-${part.id}`,
+    })
+    toast.success(`${part.name} added to cart!`)
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -115,7 +133,10 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                 <h3 className="font-semibold text-gray-900 mb-2">{part.name}</h3>
                 <div className="flex items-center justify-between">
                   <span className="text-lg font-bold text-primary">{part.price}</span>
-                  <button className="bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90 transition-colors">
+                  <button
+                    onClick={() => handleAddToCart(part)}
+                    className="bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90 transition-colors"
+                  >
                     Add to Cart
                   </button>
                 </div>

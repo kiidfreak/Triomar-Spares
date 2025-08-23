@@ -1,11 +1,17 @@
+'use client'
+
 import { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { ChevronLeft, Filter, Search, Star, Truck, MapPin, Phone } from 'lucide-react'
+import { useCart } from '@/components/cart/cart-context'
+import toast from 'react-hot-toast'
 
-export const metadata: Metadata = {
-  title: 'Nissan X-Trail T30 Parts & Accessories | Triomah Spares Ltd',
-  description: 'Quality spare parts for Nissan X-Trail T30. Engine parts, filters, brakes, suspension, electrical components, and more. Expert support and fast delivery.',
-}
+// Note: Metadata export needs to be moved to a separate layout file for client components
+// export const metadata: Metadata = {
+//   title: 'Nissan X-Trail Parts & Accessories | Triomah Spares Ltd',
+//   description: 'Quality spare parts for Nissan X-Trail. Engine parts, filters, brakes, suspension, electrical components, and more. Expert support and fast delivery.',
+// }
 
 const productCategories = [
   {
@@ -143,6 +149,13 @@ const recommendedProducts = [
 ]
 
 export default function NissanXTrailPage() {
+  const { addItem } = useCart()
+
+  const handleAddToCart = (product: any) => {
+    addItem(product)
+    toast.success(`${product.name} added to cart!`)
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -272,7 +285,10 @@ export default function NissanXTrailPage() {
                       </div>
                       <div className="text-2xl font-bold text-primary mb-2">{product.price}</div>
                       <div className="text-sm text-gray-600 mb-4">{product.delivery}</div>
-                      <button className="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90 transition-colors">
+                      <button
+                        onClick={() => handleAddToCart(product)}
+                        className="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90 transition-colors"
+                      >
                         Add to Cart
                       </button>
                     </div>
@@ -305,7 +321,10 @@ export default function NissanXTrailPage() {
                       <span className="text-sm text-gray-600">({product.reviews})</span>
                     </div>
                     <div className="text-xl font-bold text-primary mb-4">{product.price}</div>
-                    <button className="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90 transition-colors">
+                    <button
+                      onClick={() => handleAddToCart(product)}
+                      className="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90 transition-colors"
+                    >
                       Add to Cart
                     </button>
                   </div>

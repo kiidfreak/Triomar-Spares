@@ -8,47 +8,47 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 0 0% 9%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 0 0% 9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 25 100% 48%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 221 83% 53%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 84% 4.9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 25 100% 48%;
+    --popover-foreground: 0 0% 9%;
+    --primary: 0 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 9%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 0 100% 50%;
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 25 100% 48%;
-    --primary-foreground: 222.2 84% 4.9%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 25 100% 48%;
+    --background: 0 0% 9%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 12%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 0 100% 50%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 65%;
+    --accent: 0 0% 20%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 0 100% 50%;
   }
 }
 
@@ -72,15 +72,15 @@
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-neutral-100;
+    @apply bg-gray-100;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-neutral-300 rounded-full;
+    @apply bg-red-400 rounded-full;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-neutral-400;
+    @apply bg-red-500;
   }
 }
 
@@ -201,11 +201,52 @@
 
   /* Hero section utilities */
   .hero-gradient {
-    background: linear-gradient(135deg, #F26D0D 0%, #1E3A8A 100%);
+    background: linear-gradient(135deg, #FF0000 0%, #000000 100%);
   }
 
   .hero-overlay {
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  /* Garage-themed utilities */
+  .garage-bg {
+    @apply bg-garage text-white;
+  }
+
+  .garage-card {
+    @apply bg-white border-2 border-red-500 shadow-garage;
+  }
+
+  .garage-button {
+    @apply bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 shadow-garage hover:shadow-strong;
+  }
+
+  .garage-button-outline {
+    @apply border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white font-bold py-3 px-6 rounded-lg transition-all duration-300;
+  }
+
+  .industrial-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ff0000' fill-opacity='0.03' fill-rule='evenodd'%3E%3Cpath d='m0 40L40 0H20L0 20m40 20V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .garage-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ff0000' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .red-glow {
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+  }
+
+  .garage-border {
+    @apply border-2 border-red-500;
+  }
+
+  .garage-text {
+    @apply text-red-600 font-bold;
+  }
+
+  .garage-accent {
+    @apply bg-red-100 text-red-900 border border-red-300;
   }
 
   /* Button group utilities */
@@ -236,16 +277,16 @@
 
   /* Navigation utilities */
   .nav-link {
-    @apply text-sm font-medium transition-colors hover:text-primary;
+    @apply text-sm font-medium transition-colors hover:text-red-600;
   }
 
   .nav-link-active {
-    @apply text-primary;
+    @apply text-red-600;
   }
 
   /* Search utilities */
   .search-highlight {
-    @apply bg-yellow-200 text-yellow-900;
+    @apply bg-red-200 text-red-900;
   }
 
   /* Price utilities */
@@ -254,7 +295,7 @@
   }
 
   .price-sale {
-    @apply text-lg font-bold text-destructive;
+    @apply text-lg font-bold text-red-600;
   }
 
   .price-current {
@@ -263,15 +304,15 @@
 
   /* Status utilities */
   .status-in-stock {
-    @apply text-success bg-success/10 px-2 py-1 rounded-full text-xs font-medium;
+    @apply text-green-600 bg-green-100 px-2 py-1 rounded-full text-xs font-medium;
   }
 
   .status-low-stock {
-    @apply text-warning bg-warning/10 px-2 py-1 rounded-full text-xs font-medium;
+    @apply text-orange-600 bg-orange-100 px-2 py-1 rounded-full text-xs font-medium;
   }
 
   .status-out-of-stock {
-    @apply text-destructive bg-destructive/10 px-2 py-1 rounded-full text-xs font-medium;
+    @apply text-red-600 bg-red-100 px-2 py-1 rounded-full text-xs font-medium;
   }
 
   .scrollbar-hide {
@@ -307,5 +348,31 @@
 
   .snap-start {
     scroll-snap-align: start;
+  }
+
+  /* Garage-specific animations */
+  .animate-garage-pulse {
+    animation: pulse-garage 2s infinite;
+  }
+
+  .animate-red-glow {
+    animation: glow-red 2s ease-in-out infinite alternate;
+  }
+
+  /* Industrial styling */
+  .industrial-card {
+    @apply bg-gray-900 text-white border border-gray-700 shadow-industrial;
+  }
+
+  .industrial-button {
+    @apply bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 border border-gray-600;
+  }
+
+  .garage-header {
+    @apply bg-black text-white border-b-4 border-red-600;
+  }
+
+  .garage-footer {
+    @apply bg-gray-900 text-white border-t-4 border-red-600;
   }
 }

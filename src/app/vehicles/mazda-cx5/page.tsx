@@ -1,12 +1,17 @@
+'use client'
+
 import { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ChevronLeft, Filter, Search, Star, Truck, MapPin, Phone } from 'lucide-react'
+import { useCart } from '@/components/cart/cart-context'
+import toast from 'react-hot-toast'
 
-export const metadata: Metadata = {
-  title: 'Mazda CX-5 Parts & Accessories | Triomah Spares Ltd',
-  description: 'Quality spare parts for Mazda CX-5. Engine parts, filters, brakes, suspension, electrical components, and more. Expert support and fast delivery.',
-}
+// Note: Metadata export needs to be moved to a separate layout file for client components
+// export const metadata: Metadata = {
+//   title: 'Mazda CX-5 Parts & Accessories | Triomah Spares Ltd',
+//   description: 'Quality spare parts for Mazda CX-5. Engine parts, filters, brakes, suspension, electrical components, and more. Expert support and fast delivery.',
+// }
 
 const productCategories = [
   {
@@ -180,6 +185,13 @@ const recommendedProducts = [
 ]
 
 export default function MazdaCX5Page() {
+  const { addItem } = useCart()
+
+  const handleAddToCart = (product: any) => {
+    addItem(product)
+    toast.success(`${product.name} added to cart!`)
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -314,7 +326,10 @@ export default function MazdaCX5Page() {
                       </div>
                       <div className="text-2xl font-bold text-primary mb-2">{product.price}</div>
                       <div className="text-sm text-gray-600 mb-4">{product.delivery}</div>
-                      <button className="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90 transition-colors">
+                      <button
+                        onClick={() => handleAddToCart(product)}
+                        className="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90 transition-colors"
+                      >
                         Add to Cart
                       </button>
                     </div>
@@ -352,7 +367,10 @@ export default function MazdaCX5Page() {
                       <span className="text-sm text-gray-600">({product.reviews})</span>
                     </div>
                     <div className="text-xl font-bold text-primary mb-4">{product.price}</div>
-                    <button className="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90 transition-colors">
+                    <button
+                      onClick={() => handleAddToCart(product)}
+                      className="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90 transition-colors"
+                    >
                       Add to Cart
                     </button>
                   </div>

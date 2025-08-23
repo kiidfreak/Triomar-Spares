@@ -3,12 +3,13 @@ import { HorizontalCards } from '@/components/home/horizontal-cards'
 import { FeaturedDeals } from '@/components/home/featured-deals'
 import { PopularCategories } from '@/components/home/popular-categories'
 import { NewsletterSignup } from '@/components/home/newsletter-signup'
+import { GarageThemeDemo } from '@/components/garage-theme-demo'
 import Image from 'next/image'
 
 export default function HomePage() {
   return (
     <div className="min-h-screen">
-      {/* Free Services Image - Below Navbar */}
+      {/* Free Services Banner - Now at the very top */}
       <div className="w-full">
         <Image
           src="/images/freeservices.webp"
@@ -20,8 +21,11 @@ export default function HomePage() {
         />
       </div>
       
-      {/* Hero Carousel Section */}
+      {/* Hero Carousel Section - Below the banner */}
       <HeroCarousel />
+      
+      {/* Garage Theme Demo - Showcasing the new theme */}
+      <GarageThemeDemo />
       
       {/* Horizontal Cards Section */}
       <HorizontalCards />

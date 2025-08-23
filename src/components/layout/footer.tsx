@@ -53,7 +53,7 @@ export function Footer() {
   }
 
   return (
-    <footer className="bg-neutral-900 text-white">
+    <footer className="bg-black text-white border-t-4 border-red-600">
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
@@ -61,10 +61,10 @@ export function Footer() {
           <div className="lg:col-span-2">
             <div className="mb-6">
               <div className="mb-4">
-                <div className="text-2xl font-bold text-white">Triomah Spares</div>
-                <div className="text-sm text-neutral-300">Ltd</div>
+                <div className="text-2xl font-bold text-red-500">Triomah Spares</div>
+                <div className="text-sm text-gray-300">Ltd</div>
               </div>
-              <p className="text-neutral-300 mb-6 max-w-md">
+              <p className="text-gray-300 mb-6 max-w-md">
                 Specialist car spare parts for Mazda CX-5, Nissan X-Trail T30, and Toyota Prado. 
                 Located in Manchester, UK with quality parts and expert support.
               </p>
@@ -72,16 +72,16 @@ export function Footer() {
               {/* Contact Info */}
               <div className="space-y-3">
                 <div className="flex items-center space-x-3">
-                  <Phone className="h-4 w-4 text-primary" />
-                  <span className="text-neutral-300">+44 7349 013628</span>
+                  <Phone className="h-4 w-4 text-red-500" />
+                  <span className="text-gray-300">+44 7349 013628</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Mail className="h-4 w-4 text-primary" />
-                  <span className="text-neutral-300">info@triomahspares.co.uk</span>
+                  <Mail className="h-4 w-4 text-red-500" />
+                  <span className="text-gray-300">info@triomahspares.co.uk</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <MapPin className="h-4 w-4 text-primary" />
-                  <span className="text-neutral-300">34 Lillington Close, M22 1LY, Manchester</span>
+                  <MapPin className="h-4 w-4 text-red-500" />
+                  <span className="text-gray-300">34 Lillington Close, M22 1LY, Manchester</span>
                 </div>
               </div>
             </div>
@@ -94,7 +94,7 @@ export function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-neutral-800 hover:bg-primary p-3 rounded-full transition-colors"
+                  className="bg-gray-800 hover:bg-red-600 p-3 rounded-full transition-colors"
                   aria-label={social.name}
                 >
                   <social.icon className="h-5 w-5" />
