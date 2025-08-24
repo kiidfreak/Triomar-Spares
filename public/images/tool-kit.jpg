@@ -1,0 +1,22 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="#f3f4f6"/>
+  <g transform="translate(200,150)">
+    <!-- Tool box -->
+    <rect x="-40" y="-60" width="80" height="120" fill="#6b7280" rx="5"/>
+    <!-- Tool box lid -->
+    <rect x="-40" y="-60" width="80" height="20" fill="#4b5563" rx="5"/>
+    <!-- Handle -->
+    <rect x="-15" y="-70" width="30" height="10" fill="#374151" rx="5"/>
+    <!-- Tools inside -->
+    <rect x="-30" y="-40" width="8" height="40" fill="#9ca3af" rx="2"/>
+    <rect x="-15" y="-40" width="8" height="40" fill="#9ca3af" rx="2"/>
+    <rect x="0" y="-40" width="8" height="40" fill="#9ca3af" rx="2"/>
+    <rect x="15" y="-40" width="8" height="40" fill="#9ca3af" rx="2"/>
+    <rect x="30" y="-40" width="8" height="40" fill="#9ca3af" rx="2"/>
+    <!-- Wrench -->
+    <rect x="-25" y="10" width="50" height="8" fill="#d1d5db" rx="4"/>
+    <rect x="-20" y="10" width="8" height="8" fill="#9ca3af" rx="4"/>
+    <rect x="20" y="10" width="8" height="8" fill="#9ca3af" rx="4"/>
+  </g>
+  <text x="200" y="280" text-anchor="middle" font-family="Arial" font-size="16" fill="#6b7280">Tool Kit</text>
+</svg>

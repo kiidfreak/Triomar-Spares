@@ -1,0 +1,19 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="#f3f4f6"/>
+  <g transform="translate(200,150)">
+    <!-- Shock absorber body -->
+    <rect x="-20" y="-80" width="40" height="160" fill="#1f2937" rx="5"/>
+    <!-- Shock absorber piston -->
+    <rect x="-15" y="-70" width="30" height="140" fill="#6b7280" rx="3"/>
+    <!-- Spring -->
+    <path d="M -30 -60 Q -40 -40 -30 -20 Q -20 0 -30 20 Q -40 40 -30 60" stroke="#9ca3af" stroke-width="8" fill="none"/>
+    <path d="M 30 -60 Q 40 -40 30 -20 Q 20 0 30 20 Q 40 40 30 60" stroke="#9ca3af" stroke-width="8" fill="none"/>
+    <!-- Mounting bracket -->
+    <rect x="-25" y="-90" width="50" height="20" fill="#374151" rx="3"/>
+    <rect x="-25" y="70" width="50" height="20" fill="#374151" rx="3"/>
+    <!-- Bilstein logo -->
+    <rect x="-20" y="100" width="40" height="20" fill="#1f2937" rx="3"/>
+    <text x="0" y="115" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#ffffff">B8</text>
+  </g>
+  <text x="200" y="280" text-anchor="middle" font-family="Arial" font-size="16" fill="#6b7280">Bilstein B8</text>
+</svg>

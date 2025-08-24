@@ -1,0 +1,17 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="#f3f4f6"/>
+  <g transform="translate(200,150)">
+    <!-- Brake fluid bottle -->
+    <rect x="-25" y="-80" width="50" height="160" fill="#3b82f6" rx="8"/>
+    <!-- Bottle neck -->
+    <rect x="-15" y="-80" width="30" height="20" fill="#1d4ed8" rx="5"/>
+    <!-- Bottle cap -->
+    <rect x="-20" y="-90" width="40" height="20" fill="#1e40af" rx="5"/>
+    <!-- Fluid level indicator -->
+    <rect x="-20" y="-60" width="40" height="80" fill="#60a5fa" rx="5"/>
+    <!-- DOT 4 label -->
+    <rect x="-15" y="-40" width="30" height="20" fill="#ffffff" rx="3"/>
+    <text x="0" y="-25" text-anchor="middle" font-family="Arial" font-size="12" fill="#1e40af">DOT 4</text>
+  </g>
+  <text x="200" y="280" text-anchor="middle" font-family="Arial" font-size="16" fill="#6b7280">Brake Fluid</text>
+</svg>
