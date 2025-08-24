@@ -1,0 +1,74 @@
+[
+  {
+    "title": "AutoZone - Automotive Parts E-commerce Platform",
+    "description": "A modern, garage-themed automotive parts e-commerce platform built with Next.js and Tailwind CSS. Features a bold red/white/black industrial design theme, comprehensive product catalog with vehicle-specific parts for Mazda CX-5, Toyota Prado, and Nissan X-Trail, fully functional shopping cart system, and responsive design optimized for automotive professionals and enthusiasts.",
+    "techStack": [
+      "Next.js 14",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Supabase",
+      "PostgreSQL",
+      "shadcn-ui",
+      "Lucide Icons",
+      "React Hot Toast",
+      "CSS Variables",
+      "Responsive Design",
+      "Cart Context API"
+    ],
+    "difficulty": "Intermediate",
+    "funFactor": 4,
+    "image": "",
+    "githubUrl": "https://github.com/kiidfreak/Triomar-Spares",
+    "liveUrl": "",
+    "category": [
+      "web",
+      "e-commerce",
+      "automotive"
+    ],
+    "featured": true,
+    "id": "project-autozone-automotive-parts",
+    "dateCreated": "2025-01-27",
+    "keyFeatures": [
+      "Garage-themed industrial design with red/white/black color scheme",
+      "Vehicle-specific parts catalog (Mazda, Toyota, Nissan)",
+      "Fully functional shopping cart with persistent state",
+      "Responsive design optimized for mobile and desktop",
+      "Product search and filtering capabilities",
+      "Category-based product organization",
+      "Modern UI with smooth animations and transitions",
+      "Professional automotive aesthetic and branding"
+    ]
+  },
+  {
+    "title": "Madaraka Hub - School Management System",
+    "description": "A comprehensive, multi-role school management platform built with modern web technologies. Features role-based dashboards for administrators, teachers, students, parents, and staff with integrated attendance tracking, fee management, academic results, and real-time notifications. Designed for scalability and security with Row-Level Security (RLS) policies and comprehensive audit logging.",
+    "techStack": [
+      "React",
+      "TypeScript",
+      "NestJS",
+      "PostgreSQL",
+      "Prisma",
+      "Tailwind CSS",
+      "shadcn-ui",
+      "Vite",
+      "Supabase",
+      "Railway",
+      "JWT Authentication",
+      "Row-Level Security"
+    ],
+    "difficulty": "Expert",
+    "funFactor": 5,
+    "image": "",
+    "githubUrl": "https://github.com/kiidfreak/madaraka-hub-54",
+    "liveUrl": "",
+    "category": [
+      "web",
+      "data",
+      "tool"
+    ],
+    "featured": true,
+    "id": "project-madaraka-hub-54",
+    "dateCreated": "2025-08-01"
+  }
+]
