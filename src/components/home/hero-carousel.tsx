@@ -36,8 +36,7 @@ export function HeroCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isPlaying, setIsPlaying] = useState(true)
 
-  // Debug: Log the number of slides
-  console.log('Hero carousel slides count:', heroSlides.length)
+
 
   // Safety check: Ensure currentSlide is within valid bounds
   useEffect(() => {

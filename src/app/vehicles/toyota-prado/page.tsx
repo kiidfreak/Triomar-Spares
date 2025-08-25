@@ -66,7 +66,7 @@ const productCategories = [
         id: 4,
         name: 'Duralast Brake Pads (Front)',
         partNumber: 'DB1234',
-        sku: '123456',
+        sku: 'TP-001',
         price: 'KSH 4,599',
         notes: 'Front Brake Pads',
         image: '/images/brake-pads-v2-d.jpeg',

@@ -1,23 +1,11 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import db from '@/lib/db'
 
 export async function GET() {
-  try {
-    const supabase = createClient()
-    
-    const { data: vehicles, error } = await supabase
-      .from('vehicles')
-      .select('*')
-      .order('name')
-
-    if (error) {
-      console.error('Supabase error:', error)
-      return NextResponse.json({ error: 'Failed to fetch vehicles' }, { status: 500 })
-    }
-
-    return NextResponse.json({ vehicles })
-  } catch (error) {
-    console.error('API error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
-  }
+	try {
+		const { rows } = await db.query('select id, name, make, model from vehicles order by name')
+		return NextResponse.json({ ok: true, data: rows })
+	} catch (e: any) {
+		return NextResponse.json({ ok: false, error: e?.message || 'Failed to load vehicles' }, { status: 500 })
+	}
 }

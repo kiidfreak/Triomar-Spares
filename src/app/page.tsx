@@ -4,6 +4,7 @@ import { FeaturedDeals } from '@/components/home/featured-deals'
 import { PopularCategories } from '@/components/home/popular-categories'
 import { NewsletterSignup } from '@/components/home/newsletter-signup'
 import { GarageThemeDemo } from '@/components/garage-theme-demo'
+import { AdminAccess } from '@/components/home/admin-access'
 import Image from 'next/image'
 
 export default function HomePage() {
@@ -38,6 +39,9 @@ export default function HomePage() {
       
       {/* Newsletter Signup Section */}
       <NewsletterSignup />
+      
+      {/* Admin Access Section */}
+      <AdminAccess />
     </div>
   )
 }

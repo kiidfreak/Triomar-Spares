@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { User, LogOut, Settings, Package, Heart, Eye, EyeOff, Mail, Lock } from 'lucide-react'
 import { useAuth } from './auth-context'
 import Link from 'next/link'
@@ -18,9 +18,26 @@ export function UserMenu() {
   const [error, setError] = useState('')
   const { signIn, signUp, signOut, state } = useAuth()
 
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (isSignInOpen || isSignUpOpen || isDropdownOpen) {
+        const target = event.target as Element
+        if (!target.closest('.user-menu-dropdown')) {
+          setIsSignInOpen(false)
+          setIsSignUpOpen(false)
+          setIsDropdownOpen(false)
+        }
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [isSignInOpen, isSignUpOpen, isDropdownOpen])
+
   if (!state.user) {
     return (
-      <div className="relative">
+      <div className="relative user-menu-dropdown">
         <div className="flex items-center space-x-2">
           <button
             onClick={() => setIsSignInOpen(!isSignInOpen)}
@@ -69,7 +86,7 @@ export function UserMenu() {
                   setEmail('')
                   setPassword('')
                 } else {
-                  setError('Invalid email or password. Try demo@example.com / password')
+                  setError('Invalid email or password. Please check your credentials.')
                 }
               }} className="space-y-3">
                 <div>
@@ -80,8 +97,9 @@ export function UserMenu() {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
+                      className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 text-sm bg-white"
                       placeholder="Enter your email"
+                      style={{ color: 'black', WebkitTextFillColor: 'black' }}
                     />
                   </div>
                 </div>
@@ -94,8 +112,9 @@ export function UserMenu() {
                       type={showPassword ? 'text' : 'password'}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
+                      className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 text-sm bg-white"
                       placeholder="Enter your password"
+                      style={{ color: 'black', WebkitTextFillColor: 'black' }}
                     />
                     <button
                       type="button"
@@ -108,7 +127,8 @@ export function UserMenu() {
                 </div>
 
                 <div className="bg-blue-50 border border-blue-200 rounded-md p-2 text-xs text-blue-800">
-                  <strong>Demo:</strong> demo@example.com / password
+                  <strong>Demo:</strong> demo@example.com / password<br />
+                  <strong>Admin:</strong> admin@autozone.com / admin123
                 </div>
 
                 <button
@@ -175,8 +195,9 @@ export function UserMenu() {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 text-sm bg-white"
                     placeholder="Enter your full name"
+                    style={{ color: 'black', WebkitTextFillColor: 'black' }}
                   />
                 </div>
 
@@ -188,8 +209,9 @@ export function UserMenu() {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
+                      className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 text-sm bg-white"
                       placeholder="Enter your email"
+                      style={{ color: 'black', WebkitTextFillColor: 'black' }}
                     />
                   </div>
                 </div>
@@ -202,8 +224,9 @@ export function UserMenu() {
                       type={showPassword ? 'text' : 'password'}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
+                      className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 text-sm bg-white"
                       placeholder="Enter your password"
+                      style={{ color: 'black', WebkitTextFillColor: 'black' }}
                     />
                     <button
                       type="button"
@@ -223,8 +246,9 @@ export function UserMenu() {
                       type={showConfirmPassword ? 'text' : 'password'}
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
+                      className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 text-sm bg-white"
                       placeholder="Confirm your password"
+                      style={{ color: 'black', WebkitTextFillColor: 'black' }}
                     />
                     <button
                       type="button"
@@ -234,6 +258,11 @@ export function UserMenu() {
                       {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </button>
                   </div>
+                </div>
+
+                <div className="bg-blue-50 border border-blue-200 rounded-md p-2 text-xs text-blue-800">
+                  <strong>Demo:</strong> demo@example.com / password<br />
+                  <strong>Admin:</strong> admin@autozone.com / admin123
                 </div>
 
                 <button
@@ -252,7 +281,7 @@ export function UserMenu() {
   }
 
   return (
-    <div className="relative">
+    <div className="relative user-menu-dropdown">
       <button
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
         className="flex items-center space-x-2 p-2 hover:bg-muted rounded-md transition-colors"

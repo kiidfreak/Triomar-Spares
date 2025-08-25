@@ -1,10 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowLeft, Tag, Clock, Truck } from 'lucide-react'
+import { ArrowLeft, Tag, Clock, Truck, Search, Filter } from 'lucide-react'
 import Image from 'next/image'
 import { useCart } from '@/components/cart/cart-context'
 import toast from 'react-hot-toast'
+import { useState, useEffect } from 'react'
 
 const deals = [
   {
@@ -334,8 +335,20 @@ const deals = [
   }
 ]
 
+// Extract unique categories and brands from deals
+const categories = ["All Categories", ...Array.from(new Set(deals.map(deal => deal.category)))]
+const brands = ["All Brands", ...Array.from(new Set(deals.map(deal => deal.partNumber.split('-')[0])))]
+
 export default function DealsPage() {
   const { addItem, toggleCart } = useCart()
+  const [visibleDeals, setVisibleDeals] = useState(15)
+  const [loading, setLoading] = useState(false)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState("All Categories")
+  const [selectedBrand, setSelectedBrand] = useState("All Brands")
+  const [priceRange, setPriceRange] = useState([0, 100000])
+  const [sortBy, setSortBy] = useState("featured")
+  const [filteredDeals, setFilteredDeals] = useState(deals)
 
   const handleAddToCart = (deal: any) => {
     const cartItem = {
@@ -355,6 +368,60 @@ export default function DealsPage() {
     // Open cart drawer
     toggleCart()
   }
+
+  const handleLoadMore = async () => {
+    setLoading(true)
+    // Simulate loading delay for better UX
+    await new Promise(resolve => setTimeout(resolve, 500))
+    setVisibleDeals(prev => Math.min(prev + 15, filteredDeals.length))
+    setLoading(false)
+  }
+
+  // Filter and search deals
+  useEffect(() => {
+    let filtered = deals.filter(deal => {
+      const matchesSearch = deal.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           deal.description.toLowerCase().includes(searchTerm.toLowerCase())
+      const matchesCategory = selectedCategory === "All Categories" || deal.category === selectedCategory
+      const matchesBrand = selectedBrand === "All Brands" || deal.partNumber.split('-')[0] === selectedBrand
+      const dealPrice = parseFloat(deal.salePrice.replace("KSH ", "").replace(",", ""))
+      const matchesPrice = dealPrice >= priceRange[0] && dealPrice <= priceRange[1]
+      
+      return matchesSearch && matchesCategory && matchesBrand && matchesPrice
+    })
+
+    // Sort deals
+    switch (sortBy) {
+      case "price-low":
+        filtered.sort((a, b) => parseFloat(a.salePrice.replace("KSH ", "").replace(",", "")) - parseFloat(b.salePrice.replace("KSH ", "").replace(",", "")))
+        break
+      case "price-high":
+        filtered.sort((a, b) => parseFloat(b.salePrice.replace("KSH ", "").replace(",", "")) - parseFloat(a.salePrice.replace("KSH ", "").replace(",", "")))
+        break
+      case "savings":
+        filtered.sort((a, b) => {
+          const savingsA = parseFloat(a.savings.replace("Save KSH ", "").replace(",", ""))
+          const savingsB = parseFloat(b.savings.replace("Save KSH ", "").replace(",", ""))
+          return savingsB - savingsA
+        })
+        break
+      case "newest":
+        filtered.sort((a, b) => b.id - a.id)
+        break
+      default:
+        // featured - sort by savings (highest first)
+        filtered.sort((a, b) => {
+          const savingsA = parseFloat(a.savings.replace("Save KSH ", "").replace(",", ""))
+          const savingsB = parseFloat(b.savings.replace("Save KSH ", "").replace(",", ""))
+          return savingsB - savingsA
+        })
+    }
+
+    setFilteredDeals(filtered)
+    setVisibleDeals(15) // Reset to first page when filters change
+  }, [searchTerm, selectedCategory, selectedBrand, priceRange, sortBy])
+
+  const hasMoreDeals = visibleDeals < filteredDeals.length
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -385,19 +452,122 @@ export default function DealsPage() {
         />
       </div>
 
-      {/* Deals Grid */}
+      {/* Filters Section */}
       <div className="container mx-auto px-4 py-8">
+        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+          <h3 className="text-lg font-semibold mb-6 flex items-center">
+            <Filter className="h-5 w-5 mr-2" />
+            Filters & Search
+          </h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Search */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Search Deals</label>
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search deals..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-white"
+                />
+              </div>
+            </div>
+
+            {/* Category Filter */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-white"
+              >
+                {categories.map(category => (
+                  <option key={category} value={category}>{category}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Brand Filter */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Brand</label>
+              <select
+                value={selectedBrand}
+                onChange={(e) => setSelectedBrand(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-white"
+              >
+                {brands.map(brand => (
+                  <option key={brand} value={brand}>{brand}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Sort By */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
+              >
+                <option value="featured">Featured (Best Savings)</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="savings">Highest Savings</option>
+                <option value="newest">Newest</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Price Range - Full Width */}
+          <div className="mt-6">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Price Range (KSH)</label>
+            <div className="flex space-x-4 items-center">
+              <input
+                type="number"
+                placeholder="Min"
+                value={priceRange[0]}
+                onChange={(e) => setPriceRange([parseInt(e.target.value) || 0, priceRange[1]])}
+                className="w-32 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-white"
+              />
+              <span className="text-gray-500">to</span>
+              <input
+                type="number"
+                placeholder="Max"
+                value={priceRange[1]}
+                onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value) || 100000])}
+                className="w-32 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-white"
+              />
+              <button
+                onClick={() => {
+                  setSearchTerm("")
+                  setSelectedCategory("All Categories")
+                  setSelectedBrand("All Brands")
+                  setPriceRange([0, 100000])
+                  setSortBy("featured")
+                }}
+                className="ml-4 bg-gray-200 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-300 transition-colors"
+              >
+                Clear Filters
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Deals Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {deals.map((deal) => (
+          {filteredDeals.slice(0, visibleDeals).map((deal) => (
             <div key={deal.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden">
               <div className="relative aspect-video bg-gray-200 overflow-hidden">
-                                 <Image
-                   src={deal.image}
-                   alt={deal.title}
-                   fill
-                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                   className="object-cover"
-                 />
+                <Image
+                  src={deal.image}
+                  alt={deal.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover"
+                />
               </div>
               <div className="p-6">
                 <div className="flex items-center justify-between mb-2">
@@ -423,6 +593,34 @@ export default function DealsPage() {
             </div>
           ))}
         </div>
+
+        {/* Load More Button */}
+        {hasMoreDeals && (
+          <div className="text-center mt-12">
+            <button
+              onClick={handleLoadMore}
+              disabled={loading}
+              className="bg-primary text-white py-3 px-8 rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center mx-auto space-x-2"
+            >
+              {loading ? (
+                <>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                  <span>Loading...</span>
+                </>
+              ) : (
+                <>
+                  <span>Load More Deals</span>
+                  <span className="text-sm opacity-75">({filteredDeals.length - visibleDeals} more)</span>
+                </>
+              )}
+            </button>
+          </div>
+        )}
+
+        {/* Results Count */}
+        <div className="text-center mt-8 text-gray-600">
+          <p>Showing {Math.min(visibleDeals, filteredDeals.length)} of {filteredDeals.length} deals</p>
+        </div>
       </div>
 
       {/* Features */}
@@ -432,7 +630,7 @@ export default function DealsPage() {
             <div className="flex flex-col items-center">
               <Truck className="h-12 w-12 text-primary mb-4" />
               <h3 className="text-xl font-semibold mb-2">Free Shipping</h3>
-                              <p className="text-gray-600">On orders over KSH 10,000</p>
+              <p className="text-gray-600">On orders over KSH 10,000</p>
             </div>
             <div className="flex flex-col items-center">
               <Tag className="h-12 w-12 text-primary mb-4" />

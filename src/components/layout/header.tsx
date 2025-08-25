@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Search, ShoppingCart, User, Menu, X, MapPin, Phone } from 'lucide-react'
+import { Search, ShoppingCart, User as UserIcon, Menu, X, MapPin, Phone } from 'lucide-react'
 import { SearchBar } from '@/components/search/search-bar'
 import { CartDrawer } from '@/components/cart/cart-drawer'
 import { UserMenu } from '@/components/auth/user-menu'
@@ -109,6 +109,23 @@ export function Header() {
                   Electrical
                 </Link>
               </li>
+              <li>
+                <Link href="/products" className="hover:text-red-400 transition-colors whitespace-nowrap">
+                  Shop Parts
+                </Link>
+              </li>
+              <li>
+                <Link href="/deals" className="hover:text-red-400 transition-colors whitespace-nowrap">
+                  Deals
+                </Link>
+              </li>
+              {user?.role === 'admin' && (
+                <li>
+                  <Link href="/admin" className="hover:text-red-400 transition-colors whitespace-nowrap">
+                    Admin
+                  </Link>
+                </li>
+              )}
             </ul>
           </nav>
 

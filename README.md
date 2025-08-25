@@ -255,6 +255,36 @@ Run production migrations before deploying:
 npm run supabase:migrate:prod
 ```
 
+### Railway PostgreSQL
+Add the following to `.env.local` to use Railway Postgres:
+
+```
+DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DBNAME?sslmode=require
+# Optional: force SSL in non-prod
+PGSSL=true
+```
+
+Notes:
+- Use the Connection URL from Railway (ensure `sslmode=require`).
+- After changing env vars, restart the dev server.
+
+#### Create database on Railway and apply schema/seeds
+
+1. Create a new PostgreSQL service on Railway
+2. Copy the `Connection URL` and set it in `.env.local` as `DATABASE_URL`
+3. Ensure `PGSSL=true` if your instance requires SSL (most do)
+4. Apply migrations and seeds from this repo:
+
+```bash
+# In project root with .env.local loaded
+npm run db:bootstrap
+# Or separately
+npm run db:apply:migrations
+npm run db:apply:seeds
+```
+
+This runs all SQL files in `supabase/migrations` and `supabase/seeds` against your Railway database.
+
 ## 📊 Performance Optimization
 
 - **Image Optimization**: Next.js Image component with WebP format

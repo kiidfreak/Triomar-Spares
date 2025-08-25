@@ -2,6 +2,7 @@
 
 import { X } from 'lucide-react'
 import Link from 'next/link'
+import { useAuth } from '@/components/auth/auth-context'
 
 interface MobileMenuProps {
   isOpen: boolean
@@ -9,6 +10,8 @@ interface MobileMenuProps {
 }
 
 export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
+  const { state: { user } } = useAuth()
+  
   if (!isOpen) return null
 
   return (
@@ -24,24 +27,32 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           </div>
           
           <nav className="flex-1 p-4 space-y-4">
-            <Link href="/shop" className="block py-2 text-lg font-medium hover:text-primary">
-              Shop All Parts
-            </Link>
-            <Link href="/categories/brakes" className="block py-2 text-lg font-medium hover:text-primary">
-              Brakes
-            </Link>
-            <Link href="/categories/batteries" className="block py-2 text-lg font-medium hover:text-primary">
-              Batteries
-            </Link>
-            <Link href="/categories/oil-fluids" className="block py-2 text-lg font-medium hover:text-primary">
-              Oil & Fluids
-            </Link>
-            <Link href="/diy" className="block py-2 text-lg font-medium hover:text-primary">
-              DIY Guides
+            <Link href="/products" className="block py-2 text-lg font-medium hover:text-primary">
+              Shop Parts
             </Link>
             <Link href="/deals" className="block py-2 text-lg font-medium hover:text-primary">
               Deals & Promotions
             </Link>
+            <Link href="/categories/engine-filters" className="block py-2 text-lg font-medium hover:text-primary">
+              Engine & Filters
+            </Link>
+            <Link href="/categories/brakes-suspension" className="block py-2 text-lg font-medium hover:text-primary">
+              Brakes & Suspension
+            </Link>
+            <Link href="/categories/electrical" className="block py-2 text-lg font-medium hover:text-primary">
+              Electrical
+            </Link>
+            <Link href="/vehicles" className="block py-2 text-lg font-medium hover:text-primary">
+              Our Vehicles
+            </Link>
+            <Link href="/diy" className="block py-2 text-lg font-medium hover:text-primary">
+              DIY Guides
+            </Link>
+            {user?.role === 'admin' && (
+              <Link href="/admin" className="block py-2 text-lg font-medium hover:text-primary">
+                Admin Dashboard
+              </Link>
+            )}
           </nav>
         </div>
       </div>

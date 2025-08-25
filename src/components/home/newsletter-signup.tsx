@@ -11,7 +11,7 @@ export function NewsletterSignup() {
     e.preventDefault()
     if (email) {
       // Here you would typically send the email to your backend
-      console.log('Subscribing email:', email)
+  
       setIsSubscribed(true)
       setEmail('')
       

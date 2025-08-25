@@ -79,30 +79,11 @@ export function FeaturedProducts() {
   
   // Debug: Check if component mounted and buttons exist
   useEffect(() => {
-    console.log('=== FEATURED PRODUCTS COMPONENT MOUNTED ===')
-    console.log('addItem function available:', !!addItem)
-    console.log('addItem function type:', typeof addItem)
-    
-    // Check if buttons exist in DOM
-    setTimeout(() => {
-      const buttons = document.querySelectorAll('button')
-      console.log('Total buttons found in DOM:', buttons.length)
-      
-      const addToCartButtons = document.querySelectorAll('button[onclick*="handleAddToCart"]')
-      console.log('Add to cart buttons found:', addToCartButtons.length)
-      
-      addToCartButtons.forEach((button, index) => {
-        console.log(`Button ${index}:`, button)
-        console.log(`Button text:`, button.textContent)
-        console.log(`Button classes:`, button.className)
-      })
-    }, 1000)
+    // Component mounted
   }, [addItem])
 
   const handleAddToCart = (product: any) => {
-    console.log('=== ADD TO CART DEBUG ===')
-    console.log('Product clicked:', product)
-    console.log('addItem function:', addItem)
+
     
     const cartItem = {
       id: product.id,
@@ -112,14 +93,11 @@ export function FeaturedProducts() {
       partNumber: product.partNumber,
       sku: product.sku
     }
-    console.log('Cart item to add:', cartItem)
-    
-    try {
-      addItem(cartItem)
-      console.log('addItem called successfully')
-    } catch (error) {
-      console.error('Error calling addItem:', error)
-    }
+          try {
+        addItem(cartItem)
+      } catch (error) {
+        // Handle error silently in production
+      }
     
     // Show success message
     setAddedItem(product.name)
@@ -243,11 +221,7 @@ export function FeaturedProducts() {
                 {/* Add to Cart Button */}
                                  <button 
                    onClick={(e) => {
-                     console.log('=== BUTTON CLICK EVENT ===')
-                     console.log('Event object:', e)
-                     console.log('Event target:', e.target)
-                     console.log('Event currentTarget:', e.currentTarget)
-                     console.log('Button clicked for product:', product)
+                     
                      
                      // Call the original handler
                      handleAddToCart(product)

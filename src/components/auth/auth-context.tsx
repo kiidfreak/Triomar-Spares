@@ -1,16 +1,17 @@
 'use client'
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { signIn as nextAuthSignIn, signOut as nextAuthSignOut, useSession } from 'next-auth/react'
 
-interface User {
-  id: string
-  email: string
-  name: string
-  phone?: string
+interface ExtendedUser {
+  id?: string
+  email?: string | null
+  name?: string | null
+  role?: string
 }
 
 interface AuthState {
-  user: User | null
+  user: ExtendedUser | null
   isAuthenticated: boolean
   isLoading: boolean
 }
@@ -32,122 +33,68 @@ const initialState: AuthState = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const session = useSession()
   const [state, setState] = useState<AuthState>(initialState)
 
-  // Check for existing user on mount
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const savedUser = localStorage.getItem('user')
-      if (savedUser) {
-        try {
-          const user = JSON.parse(savedUser)
-          setState({
-            user,
-            isAuthenticated: true,
-            isLoading: false
-          })
-        } catch (error) {
-          localStorage.removeItem('user')
-        }
-      }
+    if (session.status === 'loading') {
+      setState((prev) => ({ ...prev, isLoading: true }))
+    } else if (session.status === 'authenticated') {
+      const user = session.data?.user
+      const role = (user as any)?.role || 'user'
+      
+      setState({
+        user: { 
+          id: (user as any)?.id, 
+          email: user?.email || null, 
+          name: user?.name || null,
+          role: role
+        },
+        isAuthenticated: true,
+        isLoading: false,
+      })
+    } else {
+      setState({ user: null, isAuthenticated: false, isLoading: false })
     }
-  }, [])
+  }, [session.status, session.data])
 
   const signIn = async (email: string, password: string): Promise<boolean> => {
     setState(prev => ({ ...prev, isLoading: true }))
-    
-    try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      // Mock authentication - in real app, this would call your auth API
-      if (email === 'demo@example.com' && password === 'password') {
-        const user: User = {
-          id: '1',
-          email: 'demo@example.com',
-          name: 'Demo User',
-          phone: '+44 7349 013628'
-        }
-        
-        setState({
-          user,
-          isAuthenticated: true,
-          isLoading: false
-        })
-        
-        // Save to localStorage
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('user', JSON.stringify(user))
-        }
-        return true
-      } else {
-        setState(prev => ({ ...prev, isLoading: false }))
-        return false
-      }
-    } catch (error) {
-      setState(prev => ({ ...prev, isLoading: false }))
-      return false
-    }
+    const res = await nextAuthSignIn('credentials', { redirect: false, email, password })
+    setState(prev => ({ ...prev, isLoading: false }))
+    return !!res?.ok
   }
 
   const signUp = async (email: string, password: string, name: string): Promise<boolean> => {
     setState(prev => ({ ...prev, isLoading: true }))
-    
     try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      // Mock registration - in real app, this would call your auth API
-      const user: User = {
-        id: Date.now().toString(),
-        email,
-        name
-      }
-      
-      setState({
-        user,
-        isAuthenticated: true,
-        isLoading: false
+      const resp = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, name })
       })
-      
-      // Save to localStorage
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('user', JSON.stringify(user))
+      const data = await resp.json()
+      if (!resp.ok || !data?.ok) {
+        setState(prev => ({ ...prev, isLoading: false }))
+        return false
       }
-      return true
-    } catch (error) {
+      // auto sign-in after register
+      const res = await nextAuthSignIn('credentials', { redirect: false, email, password })
+      setState(prev => ({ ...prev, isLoading: false }))
+      return !!res?.ok
+    } catch {
       setState(prev => ({ ...prev, isLoading: false }))
       return false
     }
   }
 
   const signOut = () => {
-    setState({
-      user: null,
-      isAuthenticated: false,
-      isLoading: false
-    })
-    
-    // Remove from localStorage
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('user')
-    }
+    nextAuthSignOut({ redirect: false })
   }
 
-  const resetPassword = async (email: string): Promise<boolean> => {
-    setState(prev => ({ ...prev, isLoading: true }))
-    
-    try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      // Mock password reset - in real app, this would call your auth API
-      setState(prev => ({ ...prev, isLoading: false }))
-      return true
-    } catch (error) {
-      setState(prev => ({ ...prev, isLoading: false }))
-      return false
-    }
+  const resetPassword = async () => {
+    // Not implemented; backend needed for email flows
+    return true
   }
 
   return (
