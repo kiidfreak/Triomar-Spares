@@ -126,11 +126,6 @@ export function UserMenu() {
                   </div>
                 </div>
 
-                <div className="bg-blue-50 border border-blue-200 rounded-md p-2 text-xs text-blue-800">
-                  <strong>Demo:</strong> demo@example.com / password<br />
-                  <strong>Admin:</strong> admin@autozone.com / admin123
-                </div>
-
                 <button
                   type="submit"
                   disabled={state.isLoading}
@@ -258,11 +253,6 @@ export function UserMenu() {
                       {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </button>
                   </div>
-                </div>
-
-                <div className="bg-blue-50 border border-blue-200 rounded-md p-2 text-xs text-blue-800">
-                  <strong>Demo:</strong> demo@example.com / password<br />
-                  <strong>Admin:</strong> admin@autozone.com / admin123
                 </div>
 
                 <button
