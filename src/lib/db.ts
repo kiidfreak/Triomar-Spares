@@ -4,6 +4,7 @@ let pool: Pool | null = null
 
 function createPool(): Pool {
 	if (!process.env.DATABASE_URL) {
+		console.error('DATABASE_URL environment variable is not set')
 		throw new Error('DATABASE_URL is not set')
 	}
 
@@ -48,17 +49,48 @@ function createPool(): Pool {
 	return new Pool(config)
 }
 
-export function getPool(): Pool {
+function getPool(): Pool {
 	if (!pool) {
 		pool = createPool()
 	}
 	return pool
 }
 
-export const db = {
-	query: (text: string, params?: any[]) => getPool().query(text, params)
+// Check if we're in a build context (Next.js build time)
+const isBuildTime = () => {
+	// Check if we're in a build environment
+	const isBuildEnv = process.env.NODE_ENV === 'production' && 
+					   typeof window === 'undefined' && 
+					   process.env.VERCEL === '1'
+	
+	// Check if DATABASE_URL is missing (which would cause build failure)
+	const isMissingDbUrl = !process.env.DATABASE_URL
+	
+	// Check if we're in Next.js build process
+	const isNextBuild = process.env.NEXT_PHASE === 'phase-production-build'
+	
+	return isBuildEnv && (isMissingDbUrl || isNextBuild)
 }
 
-export default getPool()
+export const db = {
+	query: async (text: string, params?: any[]) => {
+		// During build time when DATABASE_URL is not available, return mock data
+		if (isBuildTime()) {
+			console.warn('Database query called during build time, returning mock data')
+			return { rows: [], rowCount: 0 }
+		}
+
+		// Only create pool when actually needed (lazy initialization)
+		try {
+			return await getPool().query(text, params)
+		} catch (error) {
+			console.error('Database query error:', error)
+			throw error
+		}
+	}
+}
+
+// Export the function, not the result
+export default getPool
 
 

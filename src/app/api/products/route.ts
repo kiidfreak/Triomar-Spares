@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getPool } from '@/lib/db'
+import { db } from '@/lib/db'
 
 export async function GET(request: NextRequest) {
   try {
-    const pool = getPool()
-    const result = await pool.query(`
+    const result = await db.query(`
       SELECT id, name, description, price, brand, category_name, image_url 
       FROM product_catalog 
       LIMIT 150

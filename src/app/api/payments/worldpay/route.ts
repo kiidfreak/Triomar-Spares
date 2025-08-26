@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/nextauth'
-import db from '@/lib/db'
+import { db } from '@/lib/db'
 import crypto from 'crypto'
 
 // Worldpay configuration - replace with your actual credentials
