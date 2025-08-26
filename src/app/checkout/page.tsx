@@ -59,7 +59,7 @@ const shippingOptions = [
 ]
 
 export default function CheckoutPage() {
-  const { cart, removeItem, updateQuantity, clearCart } = useCart()
+  const { state, removeItem, updateQuantity, clearCart } = useCart()
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('mpesa')
   const [selectedShipping, setSelectedShipping] = useState('standard')
   const [isProcessing, setIsProcessing] = useState(false)
@@ -88,7 +88,7 @@ export default function CheckoutPage() {
   })
 
   // Calculate totals
-  const subtotal = cart.reduce((total, item) => {
+  const subtotal = state.items.reduce((total, item) => {
     const price = parseFloat(item.price.replace('KSH ', '').replace(',', ''))
     return total + (price * (item.quantity || 1))
   }, 0)
@@ -110,7 +110,7 @@ export default function CheckoutPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    if (cart.length === 0) {
+    if (state.items.length === 0) {
       toast.error('Your cart is empty!')
       return
     }
@@ -124,7 +124,7 @@ export default function CheckoutPage() {
     
     try {
       // Build order items from cart (assumes item.id is the part UUID)
-      const items = cart.map((it: any) => ({ part_id: it.id, quantity: it.quantity || 1 }))
+      const items = state.items.map((it: any) => ({ part_id: it.id, quantity: it.quantity || 1 }))
 
       const res = await fetch('/api/orders', {
         method: 'POST',
@@ -415,7 +415,7 @@ export default function CheckoutPage() {
               
               {/* Cart Items */}
               <div className="space-y-3 mb-6">
-                {cart.map((item) => (
+                {state.items.map((item) => (
                   <div key={item.id} className="flex items-center space-x-3">
                     <div className="w-16 h-16 bg-gray-200 rounded-md overflow-hidden">
                       <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
@@ -466,7 +466,7 @@ export default function CheckoutPage() {
               {/* Place Order Button */}
               <button
                 type="submit"
-                disabled={isProcessing || cart.length === 0}
+                disabled={isProcessing || state.items.length === 0}
                 className="w-full bg-primary text-white py-3 px-4 rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-6 flex items-center justify-center space-x-2"
               >
                 {isProcessing ? (

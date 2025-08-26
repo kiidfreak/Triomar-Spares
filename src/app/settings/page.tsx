@@ -63,7 +63,7 @@ export default function SettingsPage() {
                   <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
                   <input
                     type="text"
-                    defaultValue={state.user.name}
+                    defaultValue={state.user.name || ''}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
                   />
                 </div>
@@ -71,7 +71,7 @@ export default function SettingsPage() {
                   <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
                   <input
                     type="email"
-                    defaultValue={state.user.email}
+                    defaultValue={state.user.email || ''}
                     disabled
                     className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-500"
                   />

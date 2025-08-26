@@ -55,6 +55,10 @@ export function getPool(): Pool {
 	return pool
 }
 
+export const db = {
+	query: (text: string, params?: any[]) => getPool().query(text, params)
+}
+
 export default getPool()
 
 

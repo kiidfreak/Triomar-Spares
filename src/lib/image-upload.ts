@@ -79,7 +79,7 @@ class ImageUploadService {
             'DELETE FROM product_images WHERE image_url = $1',
             [url]
           )
-          return result.rowCount > 0
+          return (result.rowCount || 0) > 0
         case 'local':
           // For local storage, you might want to delete the file
           return true

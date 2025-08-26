@@ -6,7 +6,6 @@ import { ArrowLeft, Search, Filter, Grid, List, Star, ShoppingCart } from 'lucid
 import Image from 'next/image'
 import { useCart } from '@/components/cart/cart-context'
 import toast from 'react-hot-toast'
-import { createClient } from '@/lib/supabase/client'
 
 // Sample products data - in a real app, this would come from your database
 const allProducts = [
@@ -169,33 +168,17 @@ export default function ProductsPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const supabase = createClient()
-        const { data, error } = await supabase
-          .from('product_catalog')
-          .select('id, name, description, price, brand, category_name, image_url')
-          .limit(150)
-
-        if (error) throw error
-
-        const mapped = (data || []).map((row: any, idx: number) => ({
-          id: row.id || idx + 1,
-          name: row.name || 'Unnamed Part',
-          price: row.price != null ? `KSH ${Number(row.price).toLocaleString('en-KE')}` : 'KSH 0',
-          originalPrice: row.price != null ? `KSH ${Number(row.price).toLocaleString('en-KE')}` : 'KSH 0',
-          image: row.image_url || '/public/placeholder.svg',
-          category: row.category_name || 'General',
-          brand: row.brand || 'Generic',
-          rating: 4.5,
-          reviews: 0,
-          inStock: true,
-          isDeal: false,
-          description: row.description || ''
-        }))
-
-        setProducts(mapped)
-        setFilteredProducts(mapped)
+        const response = await fetch('/api/products')
+        if (response.ok) {
+          const data = await response.json()
+          if (data.products && data.products.length > 0) {
+            setProducts(data.products)
+            setFilteredProducts(data.products)
+          }
+        }
       } catch (err) {
         // If fetch fails, we keep the static sample data as fallback
+        console.error('Failed to fetch products from API:', err)
       }
     }
 

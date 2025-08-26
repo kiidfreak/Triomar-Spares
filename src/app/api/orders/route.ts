@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/nextauth'
-import db from '@/lib/db'
+import { db } from '@/lib/db'
 
 export async function GET() {
-	const session = await getServerSession(authOptions as any)
+	const session = await getServerSession(authOptions as any) as any
 	if (!session?.user?.email) return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 })
 
 	// Fetch orders for the authenticated user
@@ -20,7 +20,7 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-	const session = await getServerSession(authOptions as any)
+	const session = await getServerSession(authOptions as any) as any
 	if (!session?.user?.email) return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 })
 
 	const body = await req.json()

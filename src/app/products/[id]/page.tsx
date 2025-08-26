@@ -57,11 +57,12 @@ export default function ProductDetailPage() {
   const handleAddToCart = () => {
     if (product) {
       addItem({
-        id: product.id,
+        id: parseInt(product.id) || 0,
         name: product.name,
-        price: product.price,
+        price: `KSH ${product.price.toLocaleString()}`,
         image: product.image_url || '/images/placeholder.svg',
-        quantity: quantity
+        partNumber: product.part_number || `PN-${product.id}`,
+        sku: `SKU-${product.id}`
       })
       toast.success('Product added to cart!')
       toggleCart()
