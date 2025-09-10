@@ -143,6 +143,13 @@ export default function CheckoutPage() {
       })
       const data = await res.json()
       if (!res.ok || !data?.ok) {
+        // Handle authentication errors
+        if (data?.action === 'redirect_to_auth') {
+          toast.error(data.message || 'Please sign in to continue')
+          // Redirect to sign-in page
+          window.location.href = data.auth_url || '/auth/signin'
+          return
+        }
         throw new Error(data?.error || 'Failed to place order')
       }
       

@@ -22,7 +22,15 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
 	const session = await getServerSession(authOptions as any) as any
-	if (!session?.user?.email) return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 })
+	if (!session?.user?.email) {
+		return NextResponse.json({ 
+			ok: false, 
+			error: 'Authentication required',
+			message: 'Please sign up or log in to create an order',
+			action: 'redirect_to_auth',
+			auth_url: '/auth/signin'
+		}, { status: 401 })
+	}
 
 	const body = await req.json()
 	const { 

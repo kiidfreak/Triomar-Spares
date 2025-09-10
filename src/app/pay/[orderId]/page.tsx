@@ -185,7 +185,7 @@ export default function PaymentPage() {
               
               <MockPayment
                 orderId={orderDetails.id}
-                amount={orderDetails.final_amount.toFixed(2)}
+                amount={Number(orderDetails.final_amount || 0).toFixed(2)}
                 currency="KES"
                 onPaymentSuccess={handlePaymentSuccess}
                 onPaymentError={handlePaymentError}
@@ -224,7 +224,7 @@ export default function PaymentPage() {
               <div className="space-y-3 border-t pt-4">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Subtotal:</span>
-                  <span>KSH {orderDetails.total_amount.toLocaleString()}</span>
+                  <span>KSH {Number(orderDetails.total_amount || 0).toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Shipping:</span>
@@ -236,7 +236,7 @@ export default function PaymentPage() {
                 </div>
                 <div className="flex justify-between font-semibold text-lg border-t pt-3">
                   <span>Total:</span>
-                  <span>KSH {orderDetails.final_amount.toLocaleString()}</span>
+                  <span>KSH {Number(orderDetails.final_amount || 0).toLocaleString()}</span>
                 </div>
               </div>
 

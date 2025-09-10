@@ -55,6 +55,8 @@ export async function GET(
 
     const orderDetails = {
       ...order,
+      total_amount: Number(order.total_amount || 0),
+      final_amount: Number(order.final_amount || 0),
       items
     }
 
