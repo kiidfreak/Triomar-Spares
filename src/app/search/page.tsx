@@ -9,7 +9,7 @@ import { useCart } from '@/components/cart/cart-context'
 import toast from 'react-hot-toast'
 
 interface SearchResult {
-  id: number
+  id: string
   name: string
   partNumber: string
   sku: string
@@ -38,50 +38,50 @@ export default function SearchPage() {
     setTimeout(() => {
       const mockResults: SearchResult[] = [
         {
-          id: 1,
-          name: 'STP Extended Life Spin-On Engine Oil Filter S6607XL',
-          partNumber: 'S6607XL',
-          sku: '663653',
-          price: 'KSH 1,499',
+          id: '844b1711-2f63-475e-8e21-1bd4083b5860',
+          name: 'Air Filter',
+          partNumber: 'MAZ-CX5-AIR-001',
+          sku: 'SKU-001',
+          price: 'KSH 18.99',
           category: 'Engine & Filters',
           image: '/images/categories/oilfilter.avif',
           rating: 4.8,
           reviews: 156,
-          description: 'High-quality engine oil filter for extended life performance',
+          description: 'High-quality air filter for Mazda CX-5',
           inStock: true
         },
         {
-          id: 2,
-          name: 'STP Spin-On Engine Oil Filter S6607',
-          partNumber: 'S6607',
-          sku: '61887',
-          price: 'KSH 899',
-          category: 'Engine & Filters',
+          id: '469fbe6b-50a7-481b-b59e-a7c15a8d5722',
+          name: 'Brake Pads',
+          partNumber: 'NIS-XTRAIL-BRAKE-001',
+          sku: 'SKU-002',
+          price: 'KSH 42.99',
+          category: 'Brakes',
           image: '/images/categories/oilfilter.avif',
           rating: 4.6,
           reviews: 89,
-          description: 'Standard engine oil filter for regular maintenance',
+          description: 'Premium brake pads for Nissan X-Trail',
           inStock: true
         },
         {
-          id: 3,
-          name: 'Mobil 1 MOBIL 1 AIOWIX Engine Oil Filter M1-108A',
-          partNumber: 'M1-108A',
-          sku: '196194',
-          price: 'KSH 2,549',
+          id: 'ba6ec136-a389-425c-8dce-caf5c6a05f7c',
+          name: 'Engine Oil Filter',
+          partNumber: 'TOY-PRADO-OIL-001',
+          sku: 'SKU-003',
+          price: 'KSH 14.99',
           category: 'Engine & Filters',
           image: '/images/categories/oilfilter.avif',
           rating: 4.9,
           reviews: 189,
-          description: 'Premium synthetic oil filter for maximum protection',
+          description: 'Engine oil filter for Toyota Prado',
           inStock: true
         },
         {
-          id: 4,
-          name: 'ACDelco Gold Canister Engine Oil Filter PF1237',
-          partNumber: 'PF1237',
-          sku: '894620',
-          price: 'KSH 1,799',
+          id: '943f4c91-cd8b-4acd-a578-95d47a1e3d8b',
+          name: 'Bosch S4 Car Battery',
+          partNumber: 'BOSCH-S4-001',
+          sku: 'SKU-004',
+          price: 'KSH 5,999.00',
           category: 'Engine & Filters',
           image: '/images/categories/oilfilter.avif',
           rating: 4.6,

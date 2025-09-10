@@ -102,7 +102,7 @@ export default function CheckoutPage() {
   const tax = subtotal * 0.16 // 16% VAT
   const total = subtotal + shippingCost + tax
 
-  const handleQuantityChange = (itemId: number, newQuantity: number) => {
+  const handleQuantityChange = (itemId: string, newQuantity: number) => {
     if (newQuantity < 1) {
       removeItem(itemId)
     } else {
