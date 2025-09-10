@@ -21,8 +21,8 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b-4 border-red-600 bg-black text-white backdrop-blur supports-[backdrop-filter]:bg-black/95">
       {/* Top promo bar */}
       <div className="bg-red-600 text-white">
-        <div className="container mx-auto px-4 py-2">
-          <div className="text-center text-sm font-medium">
+        <div className="container mx-auto px-4 py-3">
+          <div className="text-center text-lg font-bold">
             <Link href="/deals" className="hover:text-white/90 transition-colors">
               🚗 20% off orders over KSH 10,000 + Free Ground Shipping* - Use Code: UPNRUNNING
             </Link>
@@ -32,23 +32,23 @@ export function Header() {
 
       {/* Top bar with contact info */}
       <div className="bg-gray-900 text-white">
-        <div className="container mx-auto px-4 py-2">
-          <div className="flex items-center justify-between text-sm">
-            <div className="flex items-center space-x-6">
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex items-center justify-between text-base">
+            <div className="flex items-center space-x-8">
               <div className="flex items-center space-x-2">
-                <Phone className="h-4 w-4 text-red-500" />
-                <span>+44 7349 013628</span>
+                <Phone className="h-5 w-5 text-red-500" />
+                <span className="font-medium">+44 7349 013628</span>
               </div>
               <div className="flex items-center space-x-2">
-                <MapPin className="h-4 w-4 text-red-500" />
-                <span>34 Lillington Close, M22 1LY, Manchester</span>
+                <MapPin className="h-5 w-5 text-red-500" />
+                <span className="font-medium">34 Lillington Close, M22 1LY, Manchester</span>
               </div>
             </div>
-            <div className="flex items-center space-x-4">
-              <Link href="/help" className="hover:text-red-400 transition-colors">
+            <div className="flex items-center space-x-6">
+              <Link href="/help" className="hover:text-red-400 transition-colors font-medium">
                 Help & Support
               </Link>
-              <Link href="/contact" className="hover:text-red-400 transition-colors">
+              <Link href="/contact" className="hover:text-red-400 transition-colors font-medium">
                 Contact Us
               </Link>
             </div>
@@ -62,14 +62,14 @@ export function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
             <div className="flex items-center space-x-2">
-              <div className="text-2xl font-bold text-red-500">Triomah Spares</div>
+              <div className="text-3xl font-bold text-red-500">Triomah Spares</div>
               {/* <div className="text-sm text-muted-foreground">Ltd</div> */}
             </div>
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:block">
-            <ul className="flex items-center space-x-4 py-3 text-sm font-medium">
+            <ul className="flex items-center space-x-6 py-3 text-base font-semibold">
               <li className="relative group">
                 <button className="flex items-center space-x-1 hover:text-red-400 transition-colors whitespace-nowrap">
                   <span>Our Vehicles</span>
@@ -145,8 +145,8 @@ export function Header() {
               className="relative p-2 hover:bg-gray-800 rounded-md transition-colors"
               aria-label="Shopping cart"
             >
-              <ShoppingCart className="h-6 w-6" />
-              <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+              <ShoppingCart className="h-7 w-7" />
+              <span className="absolute -top-1 -right-1 bg-red-600 text-white text-sm font-bold rounded-full h-6 w-6 flex items-center justify-center">
                 {cartState.items.length}
               </span>
             </button>
@@ -157,7 +157,7 @@ export function Header() {
               className="lg:hidden p-2 hover:bg-gray-800 rounded-md transition-colors"
               aria-label="Toggle mobile menu"
             >
-              <Menu className="h-6 w-6" />
+              <Menu className="h-7 w-7" />
             </button>
           </div>
         </div>

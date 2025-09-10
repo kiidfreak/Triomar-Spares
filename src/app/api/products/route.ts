@@ -12,8 +12,8 @@ export async function GET(request: NextRequest) {
     const products = (result.rows || []).map((row: any, idx: number) => ({
       id: row.id || `fallback-${idx + 1}`,
       name: row.name || 'Unnamed Part',
-      price: row.price != null ? `KSH ${Number(row.price).toLocaleString('en-KE')}` : 'KSH 0',
-      originalPrice: row.price != null ? `KSH ${Number(row.price).toLocaleString('en-KE')}` : 'KSH 0',
+      price: row.price != null ? `KSH ${Math.round(Number(row.price)).toLocaleString('en-KE')}` : 'KSH 0',
+      originalPrice: row.price != null ? `KSH ${Math.round(Number(row.price)).toLocaleString('en-KE')}` : 'KSH 0',
       image: row.image_url || '/images/placeholder.svg',
       category: row.category_name || 'General',
       brand: row.brand || 'Generic',

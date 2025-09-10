@@ -5,11 +5,15 @@ import { PopularCategories } from '@/components/home/popular-categories'
 import { NewsletterSignup } from '@/components/home/newsletter-signup'
 import { GarageThemeDemo } from '@/components/garage-theme-demo'
 import { AdminAccess } from '@/components/home/admin-access'
+import { SignupBanner } from '@/components/home/signup-banner'
 import Image from 'next/image'
 
 export default function HomePage() {
   return (
     <div className="min-h-screen">
+      {/* Sign-up Banner - For unauthenticated users */}
+      <SignupBanner />
+      
       {/* Free Services Banner - Now at the very top */}
       <div className="w-full">
         <Image

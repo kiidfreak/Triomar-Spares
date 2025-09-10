@@ -48,7 +48,7 @@ export async function GET(
     const items = itemRows.map(item => ({
       id: item.id,
       name: item.name,
-      price: `KSH ${Number(item.unit_price).toLocaleString()}`,
+      price: `KSH ${Math.round(Number(item.unit_price)).toLocaleString()}`,
       quantity: item.quantity,
       image: '/images/placeholder.svg'
     }))

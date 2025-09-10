@@ -22,15 +22,8 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
 	const session = await getServerSession(authOptions as any) as any
-	if (!session?.user?.email) {
-		return NextResponse.json({ 
-			ok: false, 
-			error: 'Authentication required',
-			message: 'Please sign up or log in to create an order',
-			action: 'redirect_to_auth',
-			auth_url: '/auth/signin'
-		}, { status: 401 })
-	}
+	// Allow both authenticated and unauthenticated users to create orders
+	const userEmail = session?.user?.email || null
 
 	const body = await req.json()
 	const { 
@@ -54,9 +47,12 @@ export async function POST(req: NextRequest) {
 	const client = await pool.connect()
 	try {
 		await client.query('BEGIN')
-		const { rows: userRows } = await client.query('select id from users_auth where email = $1 limit 1', [session.user.email])
-		const userId = userRows[0]?.id
-		if (!userId) throw new Error('User not found')
+		// Get user ID (if authenticated)
+		let userId = null
+		if (userEmail) {
+			const { rows: userRows } = await client.query('select id from users_auth where email = $1 limit 1', [userEmail])
+			userId = userRows[0]?.id
+		}
 
 		// Prepare shipping and billing addresses
 		const shippingAddress = `${shipping_info.address}, ${shipping_info.city}, ${shipping_info.postalCode}, ${shipping_info.country}`

@@ -138,11 +138,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const getTotalPrice = () => {
     const total = state.items.reduce((total, item) => {
-      const price = parseFloat(item.price.replace('KSH ', '').replace(',', ''))
+      const price = parseFloat(item.price.replace('KSH ', '').replace(/,/g, ''))
       return total + (price * item.quantity)
     }, 0)
     
-    return `KSH ${total.toLocaleString()}`
+    return `KSH ${Math.round(total).toLocaleString()}`
   }
 
   return (
