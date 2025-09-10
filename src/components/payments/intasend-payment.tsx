@@ -273,15 +273,17 @@ export default function IntaSendPayment({
   return (
     <div className="space-y-6">
       {/* Payment Method Selection */}
-      <div className="space-y-3">
-        <h3 className="text-lg font-semibold">Choose Payment Method</h3>
+      <div className="space-y-4">
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900">Choose Payment Method</h3>
+        </div>
         {paymentMethods.map((method) => (
           <label
             key={method.id}
-            className={`flex items-center p-4 border rounded-lg cursor-pointer transition-colors ${
+            className={`flex items-center p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
               selectedMethod === method.id
-                ? 'border-primary bg-primary/5'
-                : 'border-gray-200 hover:bg-gray-50'
+                ? 'border-red-500 bg-red-50'
+                : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
             }`}
           >
             <input
@@ -292,22 +294,32 @@ export default function IntaSendPayment({
               onChange={(e) => setSelectedMethod(e.target.value as 'mpesa' | 'card' | 'googlepay')}
               className="sr-only"
             />
-            <div className="flex items-center space-x-3 flex-1">
-              <div className={`p-2 rounded-full ${
-                selectedMethod === method.id ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600'
+            <div className="flex items-center space-x-4 flex-1">
+              <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                selectedMethod === method.id 
+                  ? 'bg-red-500 text-white' 
+                  : method.id === 'googlepay'
+                    ? 'bg-gray-100 text-gray-600'
+                    : 'bg-gray-100 text-gray-600'
               }`}>
-                {method.icon}
+                {method.id === 'googlepay' ? (
+                  <div className="w-5 h-5 bg-black rounded flex items-center justify-center">
+                    <span className="text-white text-xs font-bold">G</span>
+                  </div>
+                ) : (
+                  method.icon
+                )}
               </div>
               <div className="flex-1">
                 <div className="flex items-center space-x-2">
-                  <span className="font-medium">{method.name}</span>
+                  <span className="font-semibold text-gray-900">{method.name}</span>
                   {method.popular && (
-                    <span className="bg-primary text-white text-xs px-2 py-1 rounded-full">
+                    <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full font-medium">
                       Popular
                     </span>
                   )}
                 </div>
-                <p className="text-sm text-gray-600">{method.description}</p>
+                <p className="text-sm text-gray-600 mt-1">{method.description}</p>
               </div>
             </div>
           </label>
