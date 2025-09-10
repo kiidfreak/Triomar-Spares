@@ -14,12 +14,12 @@ const categories = {
     description: 'High-quality spare parts for Mazda CX-5 models',
     image: '/images/categories/accessories.jpg',
     parts: [
-      { id: 1, name: 'Engine Oil Filter', price: 'KSH 1,799', image: '/images/categories/oilfilter.avif' },
-      { id: 2, name: 'Air Filter', price: 'KSH 1,299', image: '/images/categories/airfilter.avif' },
-      { id: 3, name: 'Brake Pads (Front)', price: 'KSH 3,499', image: '/images/categories/duralastbrakepads.avif' },
-      { id: 4, name: 'Brake Pads (Rear)', price: 'KSH 2,899', image: '/images/categories/duralastbrakepads.avif' },
-      { id: 5, name: 'Shock Absorbers', price: 'KSH 12,999', image: '/images/categories/shockabsorber.avif' },
-      { id: 6, name: 'Control Arms', price: 'KSH 6,599', image: '/images/categories/controlarm.avif' }
+      { id: '844b1711-2f63-475e-8e21-1bd4083b5860', name: 'Engine Oil Filter', price: 'KSH 1,799', image: '/images/categories/oilfilter.avif' },
+      { id: '469fbe6b-50a7-481b-b59e-a7c15a8d5722', name: 'Air Filter', price: 'KSH 1,299', image: '/images/categories/airfilter.avif' },
+      { id: 'ba6ec136-a389-425c-8dce-caf5c6a05f7c', name: 'Brake Pads (Front)', price: 'KSH 3,499', image: '/images/categories/duralastbrakepads.avif' },
+      { id: '943f4c91-cd8b-4acd-a578-95d47a1e3d8b', name: 'Brake Pads (Rear)', price: 'KSH 2,899', image: '/images/categories/duralastbrakepads.avif' },
+      { id: '844b1711-2f63-475e-8e21-1bd4083b5860', name: 'Shock Absorbers', price: 'KSH 12,999', image: '/images/categories/shockabsorber.avif' },
+      { id: '469fbe6b-50a7-481b-b59e-a7c15a8d5722', name: 'Control Arms', price: 'KSH 6,599', image: '/images/categories/controlarm.avif' }
     ]
   },
   'nissan-xtrail': {
@@ -27,11 +27,11 @@ const categories = {
     description: 'Reliable spare parts for Nissan X-Trail T30 models',
     image: '/images/categories/accessories.jpg',
     parts: [
-      { id: 1, name: 'Engine Oil Filter', price: 'KSH 1,699', image: '/images/categories/oilfilter.avif' },
-      { id: 2, name: 'Fuel Pump', price: 'KSH 18,999', image: '/images/categories/fuelfilter.avif' },
-      { id: 3, name: 'Brake Discs', price: 'KSH 4,999', image: '/images/categories/brakerotor.avif' },
-      { id: 4, name: 'Suspension Bushes', price: 'KSH 2,299', image: '/images/categories/controlarm.avif' },
-      { id: 5, name: 'Ignition Coils', price: 'KSH 4,199', image: '/images/categories/alternator.avif' }
+      { id: 'ba6ec136-a389-425c-8dce-caf5c6a05f7c', name: 'Engine Oil Filter', price: 'KSH 1,699', image: '/images/categories/oilfilter.avif' },
+      { id: '943f4c91-cd8b-4acd-a578-95d47a1e3d8b', name: 'Fuel Pump', price: 'KSH 18,999', image: '/images/categories/fuelfilter.avif' },
+      { id: '844b1711-2f63-475e-8e21-1bd4083b5860', name: 'Brake Discs', price: 'KSH 4,999', image: '/images/categories/brakerotor.avif' },
+      { id: '469fbe6b-50a7-481b-b59e-a7c15a8d5722', name: 'Suspension Bushes', price: 'KSH 2,299', image: '/images/categories/controlarm.avif' },
+      { id: 'ba6ec136-a389-425c-8dce-caf5c6a05f7c', name: 'Ignition Coils', price: 'KSH 4,199', image: '/images/categories/alternator.avif' }
     ]
   },
   'toyota-prado': {
@@ -39,10 +39,10 @@ const categories = {
     description: 'Premium spare parts for Toyota Prado models',
     image: '/images/categories/accessories.jpg',
     parts: [
-      { id: 1, name: 'Timing Belt', price: 'KSH 12,999', image: '/images/categories/oilfilter.avif' },
-      { id: 2, name: 'Water Pump', price: 'KSH 9,799', image: '/images/categories/fuelfilter.avif' },
-      { id: 3, name: 'Suspension Arms', price: 'KSH 7,599', image: '/images/categories/controlarm.avif' },
-      { id: 4, name: 'Ball Joints', price: 'KSH 3,399', image: '/images/categories/controlarm.avif' }
+      { id: '943f4c91-cd8b-4acd-a578-95d47a1e3d8b', name: 'Timing Belt', price: 'KSH 12,999', image: '/images/categories/oilfilter.avif' },
+      { id: '844b1711-2f63-475e-8e21-1bd4083b5860', name: 'Water Pump', price: 'KSH 9,799', image: '/images/categories/fuelfilter.avif' },
+      { id: '469fbe6b-50a7-481b-b59e-a7c15a8d5722', name: 'Suspension Arms', price: 'KSH 7,599', image: '/images/categories/controlarm.avif' },
+      { id: 'ba6ec136-a389-425c-8dce-caf5c6a05f7c', name: 'Ball Joints', price: 'KSH 3,399', image: '/images/categories/controlarm.avif' }
     ]
   },
   'engine-filters': {
@@ -50,10 +50,10 @@ const categories = {
     description: 'Complete range of engine filters and maintenance parts',
     image: '/images/categories/filters.jpg',
     parts: [
-      { id: 1, name: 'STP Oil Filter Bundle', price: 'KSH 4,999', image: '/images/categories/oilfilter.avif' },
-      { id: 2, name: 'Air Filter', price: 'KSH 1,299', image: '/images/categories/airfilter.avif' },
-      { id: 3, name: 'Fuel Filter', price: 'KSH 1,899', image: '/images/categories/fuelfilter.avif' },
-      { id: 4, name: 'Cabin Air Filter', price: 'KSH 1,499', image: '/images/categories/cabinairfilter.avif' }
+      { id: '844b1711-2f63-475e-8e21-1bd4083b5860', name: 'STP Oil Filter Bundle', price: 'KSH 4,999', image: '/images/categories/oilfilter.avif' },
+      { id: '469fbe6b-50a7-481b-b59e-a7c15a8d5722', name: 'Air Filter', price: 'KSH 1,299', image: '/images/categories/airfilter.avif' },
+      { id: 'ba6ec136-a389-425c-8dce-caf5c6a05f7c', name: 'Fuel Filter', price: 'KSH 1,899', image: '/images/categories/fuelfilter.avif' },
+      { id: '943f4c91-cd8b-4acd-a578-95d47a1e3d8b', name: 'Cabin Air Filter', price: 'KSH 1,499', image: '/images/categories/cabinairfilter.avif' }
     ]
   },
   'brakes-suspension': {
@@ -61,10 +61,10 @@ const categories = {
     description: 'Quality brake and suspension components',
     image: '/images/categories/freepadsbanner.webp',
     parts: [
-      { id: 1, name: 'Duralast Brake Pads', price: 'KSH 3,499', image: '/images/categories/duralastbrakepads.avif' },
-      { id: 2, name: 'Brake Rotors', price: 'KSH 4,999', image: '/images/categories/brakerotor.avif' },
-      { id: 3, name: 'Shock Absorbers', price: 'KSH 12,999', image: '/images/categories/shockabsorber.avif' },
-      { id: 4, name: 'Control Arms', price: 'KSH 6,599', image: '/images/categories/controlarm.avif' }
+      { id: '844b1711-2f63-475e-8e21-1bd4083b5860', name: 'Duralast Brake Pads', price: 'KSH 3,499', image: '/images/categories/duralastbrakepads.avif' },
+      { id: '469fbe6b-50a7-481b-b59e-a7c15a8d5722', name: 'Brake Rotors', price: 'KSH 4,999', image: '/images/categories/brakerotor.avif' },
+      { id: 'ba6ec136-a389-425c-8dce-caf5c6a05f7c', name: 'Shock Absorbers', price: 'KSH 12,999', image: '/images/categories/shockabsorber.avif' },
+      { id: '943f4c91-cd8b-4acd-a578-95d47a1e3d8b', name: 'Control Arms', price: 'KSH 6,599', image: '/images/categories/controlarm.avif' }
     ]
   },
   'electrical': {
@@ -72,10 +72,10 @@ const categories = {
     description: 'Electrical parts and accessories',
     image: '/images/categories/lighting.jpg',
     parts: [
-      { id: 1, name: 'Car Battery', price: 'KSH 12,999', image: '/images/categories/battery.avif' },
-      { id: 2, name: 'Alternator', price: 'KSH 18,999', image: '/images/categories/alternator.avif' },
-      { id: 3, name: 'Starter Motor', price: 'KSH 12,999', image: '/images/categories/startermotor.avif' },
-      { id: 4, name: 'Headlight Bulbs', price: 'KSH 1,899', image: '/images/categories/headlightbulb.avif' }
+      { id: '943f4c91-cd8b-4acd-a578-95d47a1e3d8b', name: 'Car Battery', price: 'KSH 12,999', image: '/images/categories/battery.avif' },
+      { id: '844b1711-2f63-475e-8e21-1bd4083b5860', name: 'Alternator', price: 'KSH 18,999', image: '/images/categories/alternator.avif' },
+      { id: '469fbe6b-50a7-481b-b59e-a7c15a8d5722', name: 'Starter Motor', price: 'KSH 12,999', image: '/images/categories/startermotor.avif' },
+      { id: 'ba6ec136-a389-425c-8dce-caf5c6a05f7c', name: 'Headlight Bulbs', price: 'KSH 1,899', image: '/images/categories/headlightbulb.avif' }
     ]
   }
 }
