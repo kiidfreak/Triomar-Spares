@@ -24,9 +24,20 @@ export async function POST(req: NextRequest) {
 	if (!session?.user?.email) return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 })
 
 	const body = await req.json()
-	const { items, payment_method } = body || {}
+	const { 
+		items, 
+		payment_method, 
+		shipping_info, 
+		billing_info, 
+		shipping_method 
+	} = body || {}
+	
 	if (!Array.isArray(items) || items.length === 0) {
 		return NextResponse.json({ ok: false, error: 'Items required' }, { status: 400 })
+	}
+
+	if (!shipping_info || !shipping_info.firstName || !shipping_info.lastName || !shipping_info.email) {
+		return NextResponse.json({ ok: false, error: 'Shipping information is required' }, { status: 400 })
 	}
 
 	// Create order and items in a transaction
@@ -38,11 +49,37 @@ export async function POST(req: NextRequest) {
 		const userId = userRows[0]?.id
 		if (!userId) throw new Error('User not found')
 
+		// Prepare shipping and billing addresses
+		const shippingAddress = `${shipping_info.address}, ${shipping_info.city}, ${shipping_info.postalCode}, ${shipping_info.country}`
+		const billingAddress = billing_info.sameAsShipping 
+			? shippingAddress 
+			: `${billing_info.address}, ${billing_info.city}, ${billing_info.postalCode}, ${billing_info.country}`
+
+		// Generate order number
+		const orderNumber = `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`
+
 		const initialStatus = payment_method === 'cod' ? 'pending' : 'pending_payment'
-		const { rows: orderRows } = await client.query(
-			'insert into orders (user_id, status, total_amount, final_amount) values ($1, $2, 0, 0) returning id',
-			[userId, initialStatus]
-		)
+		const { rows: orderRows } = await client.query(`
+			insert into orders (
+				user_id, 
+				order_number,
+				status, 
+				payment_method,
+				shipping_method,
+				shipping_address,
+				billing_address,
+				total_amount, 
+				final_amount
+			) values ($1, $2, $3, $4, $5, $6, $7, 0, 0) returning id
+		`, [
+			userId, 
+			orderNumber,
+			initialStatus, 
+			payment_method,
+			shipping_method || 'standard',
+			shippingAddress,
+			billingAddress
+		])
 		const orderId = orderRows[0].id
 
 		for (const it of items) {
@@ -64,11 +101,26 @@ export async function POST(req: NextRequest) {
 
 		await client.query('COMMIT')
 
-		// If using Worldpay (or any online payment), return a placeholder payment initiation
-		if (payment_method === 'card' || payment_method === 'worldpay') {
+		// Handle different payment methods
+		if (payment_method === 'card' || payment_method === 'mpesa' || payment_method === 'googlepay') {
 			return NextResponse.json({
 				ok: true,
 				order_id: orderId,
+				order_number: orderNumber,
+				payment: {
+					provider: 'intasend',
+					payment_method: payment_method,
+					redirectUrl: `/checkout/payment?order_id=${orderId}`
+				}
+			})
+		}
+
+		// Legacy Worldpay support
+		if (payment_method === 'worldpay') {
+			return NextResponse.json({
+				ok: true,
+				order_id: orderId,
+				order_number: orderNumber,
 				payment: {
 					provider: 'worldpay',
 					redirectUrl: `/api/payments/worldpay?order_id=${orderId}`
@@ -78,7 +130,12 @@ export async function POST(req: NextRequest) {
 
 		// Cash/bank transfer flows
 		await db.query('update orders set status = $2 where id = $1', [orderId, 'confirmed'])
-		return NextResponse.json({ ok: true, order_id: orderId })
+		return NextResponse.json({ 
+			ok: true, 
+			order_id: orderId,
+			order_number: orderNumber,
+			message: 'Order created successfully'
+		})
 	} catch (e: any) {
 		await client.query('ROLLBACK')
 		return NextResponse.json({ ok: false, error: e?.message || 'Order creation failed' }, { status: 500 })
