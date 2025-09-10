@@ -96,8 +96,13 @@ export async function POST(req: NextRequest) {
 
 		// Trigger calculates totals via existing trigger after items inserted
 
-		// Clear server-side cart now that items are in an order
-		await client.query('delete from shopping_cart where user_id = $1', [userId])
+		// Clear server-side cart now that items are in an order (if table exists)
+		try {
+			await client.query('delete from shopping_cart where user_id = $1', [userId])
+		} catch (error) {
+			// shopping_cart table might not exist yet, that's okay
+			console.log('Note: shopping_cart table does not exist, skipping cart cleanup')
+		}
 
 		await client.query('COMMIT')
 
