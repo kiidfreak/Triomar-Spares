@@ -1,7 +1,7 @@
 'use client'
 
 import { useAuth } from '@/components/auth/auth-context'
-import { useRouter } from 'next/navigation'
+import { useAuthModal } from '@/components/auth/auth-modal-context'
 import { LogIn, UserPlus, ShoppingCart } from 'lucide-react'
 
 interface AuthRequiredProps {
@@ -11,7 +11,7 @@ interface AuthRequiredProps {
 
 export default function AuthRequired({ children, fallback }: AuthRequiredProps) {
   const { state } = useAuth()
-  const router = useRouter()
+  const { openSignIn, openSignUp } = useAuthModal()
 
   if (state.isLoading) {
     return (
@@ -40,7 +40,7 @@ export default function AuthRequired({ children, fallback }: AuthRequiredProps) 
           
           <div className="space-y-3">
             <button
-              onClick={() => router.push('/auth/signin')}
+              onClick={openSignIn}
               className="w-full bg-red-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-red-600 transition-colors flex items-center justify-center space-x-2"
             >
               <LogIn className="h-5 w-5" />
@@ -48,7 +48,7 @@ export default function AuthRequired({ children, fallback }: AuthRequiredProps) 
             </button>
             
             <button
-              onClick={() => router.push('/auth/signup')}
+              onClick={openSignUp}
               className="w-full border border-gray-300 text-gray-700 py-3 px-4 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center justify-center space-x-2"
             >
               <UserPlus className="h-5 w-5" />

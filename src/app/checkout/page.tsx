@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, CreditCard, Truck, MapPin, Shield, CheckCircle } from 'lucide-react'
 import { useCart } from '@/components/cart/cart-context'
-import MockPayment from '@/components/payments/mock-payment'
+import IntaSendPayment from '@/components/payments/intasend-payment'
 import toast from 'react-hot-toast'
 
 const paymentMethods = [
@@ -437,7 +437,7 @@ export default function CheckoutPage() {
                   Complete Payment
                 </h2>
                 {orderId && (
-                  <MockPayment
+                  <IntaSendPayment
                     orderId={orderId}
                     amount={total.toFixed(2)}
                     currency="KES"

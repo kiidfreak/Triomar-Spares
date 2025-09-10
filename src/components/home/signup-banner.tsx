@@ -1,12 +1,13 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import { useAuth } from '@/components/auth/auth-context'
+import { useAuthModal } from '@/components/auth/auth-modal-context'
 import { X, UserPlus, Gift, Truck, Shield } from 'lucide-react'
 
 export function SignupBanner() {
   const { state } = useAuth()
+  const { openSignIn, openSignUp } = useAuthModal()
   const [isDismissed, setIsDismissed] = useState(false)
 
   // Don't show banner if user is authenticated or if it's been dismissed
@@ -38,19 +39,19 @@ export function SignupBanner() {
         </div>
         
         <div className="flex items-center space-x-4">
-          <Link 
-            href="/auth/signup"
+          <button 
+            onClick={openSignUp}
             className="bg-white text-red-600 px-4 py-2 rounded-md font-semibold hover:bg-gray-100 transition-colors flex items-center space-x-2"
           >
             <UserPlus className="h-4 w-4" />
             <span>Sign Up Free</span>
-          </Link>
-          <Link 
-            href="/auth/signin"
+          </button>
+          <button 
+            onClick={openSignIn}
             className="text-white hover:text-gray-200 transition-colors font-medium"
           >
             Sign In
-          </Link>
+          </button>
           <button
             onClick={() => setIsDismissed(true)}
             className="text-white hover:text-gray-200 transition-colors p-1"

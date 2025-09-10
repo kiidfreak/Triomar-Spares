@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import { ArrowLeft, CheckCircle, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
-import MockPayment from '@/components/payments/mock-payment'
+import IntaSendPayment from '@/components/payments/intasend-payment'
 import toast from 'react-hot-toast'
 
 interface OrderDetails {
@@ -183,7 +183,7 @@ export default function PaymentPage() {
             <div className="bg-white rounded-lg shadow-md p-6">
               <h2 className="text-xl font-semibold mb-6">Payment Details</h2>
               
-              <MockPayment
+              <IntaSendPayment
                 orderId={orderDetails.id}
                 amount={Number(orderDetails.final_amount || 0).toFixed(2)}
                 currency="KES"

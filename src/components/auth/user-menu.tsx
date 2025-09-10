@@ -3,12 +3,12 @@
 import { useState, useEffect } from 'react'
 import { User, LogOut, Settings, Package, Heart, Eye, EyeOff, Mail, Lock } from 'lucide-react'
 import { useAuth } from './auth-context'
+import { useAuthModal } from './auth-modal-context'
 import Link from 'next/link'
 
 export function UserMenu() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const [isSignInOpen, setIsSignInOpen] = useState(false)
-  const [isSignUpOpen, setIsSignUpOpen] = useState(false)
+  const { isSignInOpen, isSignUpOpen, openSignIn, openSignUp, closeModals } = useAuthModal()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
@@ -24,8 +24,7 @@ export function UserMenu() {
       if (isSignInOpen || isSignUpOpen || isDropdownOpen) {
         const target = event.target as Element
         if (!target.closest('.user-menu-dropdown')) {
-          setIsSignInOpen(false)
-          setIsSignUpOpen(false)
+          closeModals()
           setIsDropdownOpen(false)
         }
       }
@@ -33,20 +32,20 @@ export function UserMenu() {
 
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [isSignInOpen, isSignUpOpen, isDropdownOpen])
+  }, [isSignInOpen, isSignUpOpen, isDropdownOpen, closeModals])
 
   if (!state.user) {
     return (
       <div className="relative user-menu-dropdown">
         <div className="flex items-center space-x-2">
           <button
-            onClick={() => setIsSignInOpen(!isSignInOpen)}
+            onClick={openSignIn}
             className="text-sm font-medium text-gray-700 hover:text-primary transition-colors"
           >
             Sign In
           </button>
           <button
-            onClick={() => setIsSignUpOpen(!isSignUpOpen)}
+            onClick={openSignUp}
             className="bg-primary text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors"
           >
             Sign Up
@@ -60,7 +59,7 @@ export function UserMenu() {
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900">Sign In</h3>
                 <button
-                  onClick={() => setIsSignInOpen(false)}
+                  onClick={closeModals}
                   className="text-gray-400 hover:text-gray-600"
                 >
                   ×
@@ -82,7 +81,7 @@ export function UserMenu() {
                 }
                 const success = await signIn(email, password)
                 if (success) {
-                  setIsSignInOpen(false)
+                  closeModals()
                   setEmail('')
                   setPassword('')
                 } else {
@@ -145,7 +144,7 @@ export function UserMenu() {
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900">Create Account</h3>
                 <button
-                  onClick={() => setIsSignUpOpen(false)}
+                  onClick={closeModals}
                   className="text-gray-400 hover:text-gray-600"
                 >
                   ×
@@ -175,7 +174,7 @@ export function UserMenu() {
                 }
                 const success = await signUp(email, password, name)
                 if (success) {
-                  setIsSignUpOpen(false)
+                  closeModals()
                   setName('')
                   setEmail('')
                   setPassword('')
