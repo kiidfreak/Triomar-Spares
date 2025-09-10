@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/nextauth'
 import { db } from '@/lib/db'
+import { getPaymentUrl } from '@/lib/payment-links'
 
 export async function GET() {
 	const session = await getServerSession(authOptions as any) as any
@@ -106,12 +107,16 @@ export async function POST(req: NextRequest) {
 
 		await client.query('COMMIT')
 
+		// Generate payment link
+		const paymentUrl = getPaymentUrl(orderId)
+
 		// Handle different payment methods
 		if (payment_method === 'card' || payment_method === 'mpesa' || payment_method === 'googlepay') {
 			return NextResponse.json({
 				ok: true,
 				order_id: orderId,
 				order_number: orderNumber,
+				payment_url: paymentUrl,
 				payment: {
 					provider: 'intasend',
 					payment_method: payment_method,
@@ -126,6 +131,7 @@ export async function POST(req: NextRequest) {
 				ok: true,
 				order_id: orderId,
 				order_number: orderNumber,
+				payment_url: paymentUrl,
 				payment: {
 					provider: 'worldpay',
 					redirectUrl: `/api/payments/worldpay?order_id=${orderId}`
@@ -139,6 +145,7 @@ export async function POST(req: NextRequest) {
 			ok: true, 
 			order_id: orderId,
 			order_number: orderNumber,
+			payment_url: paymentUrl,
 			message: 'Order created successfully'
 		})
 	} catch (e: any) {
