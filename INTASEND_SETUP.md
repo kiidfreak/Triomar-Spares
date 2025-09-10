@@ -54,6 +54,19 @@ Make sure your orders table has these columns:
 ```sql
 ALTER TABLE orders ADD COLUMN IF NOT EXISTS payment_method VARCHAR(50);
 ALTER TABLE orders ADD COLUMN IF NOT EXISTS payment_transaction_id VARCHAR(255);
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS final_amount DECIMAL(10,2);
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS order_number VARCHAR(50);
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS tax_amount DECIMAL(10,2) DEFAULT 0;
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS shipping_amount DECIMAL(10,2) DEFAULT 0;
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS discount_amount DECIMAL(10,2) DEFAULT 0;
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS shipping_method VARCHAR(50) DEFAULT 'standard';
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS payment_status VARCHAR(50) DEFAULT 'pending';
+```
+
+**Quick Migration:**
+Run the database migration script to add all missing columns:
+```bash
+node scripts/apply-database-migration.js
 ```
 
 ## Webhook Configuration
