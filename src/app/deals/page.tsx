@@ -48,7 +48,7 @@ const deals = [
     sku: "LUCAS-FUEL-2PK"
   },
   {
-    id: 4,
+    id: "469fbe6b-50a7-481b-b59e-a7c15a8d5722",
     title: "ProElite Microfiber Towels 6-Pack",
     description: "Save KSH 600 on ProElite Microfiber Towels 6 pack",
     originalPrice: "KSH 2,499",
@@ -61,7 +61,7 @@ const deals = [
     sku: "PROELITE-MF-6PK"
   },
   {
-    id: 5,
+    id: "ba6ec136-a389-425c-8dce-caf5c6a05f7c",
     title: "Duralast Professional Wrench Set",
     description: "Save KSH 800 on Duralast Professional Socket Wrench Set",
     originalPrice: "KSH 3,999",
@@ -74,7 +74,7 @@ const deals = [
     sku: "DURALAST-WRENCH"
   },
   {
-    id: 6,
+    id: "943f4c91-cd8b-4acd-a578-95d47a1e3d8b",
     title: "Oil Change Complete Bundle",
     description: "Bundle and save up to KSH 2,500 on oil and filter deals",
     originalPrice: "KSH 4,499",
@@ -87,7 +87,7 @@ const deals = [
     sku: "OIL-BUNDLE-1"
   },
   {
-    id: 7,
+    id: "844b1711-2f63-475e-8e21-1bd4083b5860",
     title: "Brembo Premium Brake Pads Set",
     description: "Front & Rear Brembo Premium Brake Pads for most vehicles",
     originalPrice: "KSH 8,999",
@@ -100,7 +100,7 @@ const deals = [
     sku: "BREMBO-BRAKE-SET"
   },
   {
-    id: 8,
+    id: "469fbe6b-50a7-481b-b59e-a7c15a8d5722",
     title: "Bosch Battery + Installation",
     description: "Bosch S4 Car Battery with free installation service",
     originalPrice: "KSH 7,999",
@@ -113,7 +113,7 @@ const deals = [
     sku: "BOSCH-BAT-INSTALL"
   },
   {
-    id: 9,
+    id: "ba6ec136-a389-425c-8dce-caf5c6a05f7c",
     title: "Mobil 1 Oil + Filter Combo",
     description: "5L Mobil 1 Synthetic Oil + Premium Oil Filter",
     originalPrice: "KSH 5,499",
@@ -126,7 +126,7 @@ const deals = [
     sku: "MOBIL1-COMBO"
   },
   {
-    id: 10,
+    id: "943f4c91-cd8b-4acd-a578-95d47a1e3d8b",
     title: "Philips LED Headlight Bulbs Pair",
     description: "Philips X-tremeVision LED Headlight Bulbs - Brighter than standard",
     originalPrice: "KSH 3,499",
@@ -139,7 +139,7 @@ const deals = [
     sku: "PHILIPS-LED-PAIR"
   },
   {
-    id: 11,
+    id: "844b1711-2f63-475e-8e21-1bd4083b5860",
     title: "K&N Air Filter + Cleaner Kit",
     description: "K&N Performance Air Filter with cleaning and oiling kit",
     originalPrice: "KSH 4,999",
@@ -152,7 +152,7 @@ const deals = [
     sku: "KN-AIR-CLEANER"
   },
   {
-    id: 12,
+    id: "469fbe6b-50a7-481b-b59e-a7c15a8d5722",
     title: "Monroe Shock Absorbers Set",
     description: "Monroe Reflex Shock Absorbers - Front or Rear Set",
     originalPrice: "KSH 12,999",
@@ -165,7 +165,7 @@ const deals = [
     sku: "MONROE-SHOCKS"
   },
   {
-    id: 13,
+    id: "943f4c91-cd8b-4acd-a578-95d47a1e3d8b",
     title: "NGK Spark Plugs 4-Pack",
     description: "NGK Iridium IX Spark Plugs - Set of 4 for most engines",
     originalPrice: "KSH 2,999",
@@ -178,7 +178,7 @@ const deals = [
     sku: "NGK-IRIDIUM-4PK"
   },
   {
-    id: 14,
+    id: "844b1711-2f63-475e-8e21-1bd4083b5860",
     title: "Castrol Brake Fluid + Bleeding Kit",
     description: "Castrol DOT 4 Brake Fluid with professional bleeding kit",
     originalPrice: "KSH 2,499",
@@ -191,7 +191,7 @@ const deals = [
     sku: "CASTROL-BRAKE-KIT"
   },
   {
-    id: 15,
+    id: "ba6ec136-a389-425c-8dce-caf5c6a05f7c",
     title: "Halfords Advanced Tool Kit",
     description: "Halfords Advanced 150-Piece Tool Kit with carry case",
     originalPrice: "KSH 14,999",
@@ -204,7 +204,7 @@ const deals = [
     sku: "HALFORDS-150PK"
   },
   {
-    id: 16,
+    id: "943f4c91-cd8b-4acd-a578-95d47a1e3d8b",
     title: "Shell Helix Ultra 5W-30 Oil 4L",
     description: "Shell Helix Ultra Professional 5W-30 Fully Synthetic Engine Oil",
     originalPrice: "KSH 8,999",
@@ -217,7 +217,7 @@ const deals = [
     sku: "SHELL-HELIX-5W30"
   },
   {
-    id: 17,
+    id: "844b1711-2f63-475e-8e21-1bd4083b5860",
     title: "Castrol Edge 0W-20 Professional",
     description: "Castrol Edge Professional 0W-20 Fully Synthetic Oil 5L",
     originalPrice: "KSH 9,499",
@@ -230,7 +230,7 @@ const deals = [
     sku: "CASTROL-EDGE-0W20"
   },
   {
-    id: 18,
+    id: "469fbe6b-50a7-481b-b59e-a7c15a8d5722",
     title: "Mobil 1 ESP X3 0W-30 5L",
     description: "Mobil 1 ESP X3 0W-30 Low SAPS Fully Synthetic Oil",
     originalPrice: "KSH 10,999",
@@ -243,7 +243,7 @@ const deals = [
     sku: "MOBIL1-ESP-0W30"
   },
   {
-    id: 19,
+    id: "ba6ec136-a389-425c-8dce-caf5c6a05f7c",
     title: "Brembo Sport Brake Discs & Pads",
     description: "Brembo Sport Brake Discs & Pads Complete Set - Front & Rear",
     originalPrice: "KSH 29,999",
@@ -256,7 +256,7 @@ const deals = [
     sku: "BREMBO-SPORT-COMPLETE"
   },
   {
-    id: 20,
+    id: "943f4c91-cd8b-4acd-a578-95d47a1e3d8b",
     title: "Bilstein B8 Performance Shocks",
     description: "Bilstein B8 Performance Shocks - Set of 4 for Sport Suspension",
     originalPrice: "KSH 44,999",
@@ -269,7 +269,7 @@ const deals = [
     sku: "BILSTEIN-B8-SET"
   },
   {
-    id: 21,
+    id: "844b1711-2f63-475e-8e21-1bd4083b5860",
     title: "Hella LED Daytime Running Lights",
     description: "Hella LED Daytime Running Lights with Smart Control Module",
     originalPrice: "KSH 17,999",
@@ -282,7 +282,7 @@ const deals = [
     sku: "HELLA-LED-DRL"
   },
   {
-    id: 22,
+    id: "469fbe6b-50a7-481b-b59e-a7c15a8d5722",
     title: "Bosch S5 Battery + Installation",
     description: "Bosch S5 Premium Car Battery with 5-Year Warranty + Installation",
     originalPrice: "KSH 12,999",
@@ -295,7 +295,7 @@ const deals = [
     sku: "BOSCH-S5-PREMIUM"
   },
   {
-    id: 23,
+    id: "ba6ec136-a389-425c-8dce-caf5c6a05f7c",
     title: "K&N Performance Intake System",
     description: "K&N Performance Air Intake System with Heat Shield",
     originalPrice: "KSH 39,999",
@@ -308,7 +308,7 @@ const deals = [
     sku: "KN-INTAKE-SYSTEM"
   },
   {
-    id: 24,
+    id: "943f4c91-cd8b-4acd-a578-95d47a1e3d8b",
     title: "Snap-on Professional Tool Set",
     description: "Snap-on Professional 200-Piece Tool Set with Roller Cabinet",
     originalPrice: "KSH 89,999",
@@ -321,7 +321,7 @@ const deals = [
     sku: "SNAPON-200PK-CABINET"
   },
   {
-    id: 25,
+    id: "844b1711-2f63-475e-8e21-1bd4083b5860",
     title: "Motul 300V 5W-30 Racing Oil",
     description: "Motul 300V 5W-30 Racing Oil 4L - Professional Motorsport Grade",
     originalPrice: "KSH 15,999",
@@ -406,7 +406,8 @@ export default function DealsPage() {
         })
         break
       case "newest":
-        filtered.sort((a, b) => b.id - a.id)
+        // Sort by creation order (since we can't sort UUIDs numerically)
+        // Keep original order for newest items
         break
       default:
         // featured - sort by savings (highest first)
