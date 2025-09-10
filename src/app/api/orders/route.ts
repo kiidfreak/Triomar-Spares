@@ -30,7 +30,8 @@ export async function POST(req: NextRequest) {
 	}
 
 	// Create order and items in a transaction
-	const client = await (db as any).connect()
+	const pool = await import('@/lib/db').then(m => m.default())
+	const client = await pool.connect()
 	try {
 		await client.query('BEGIN')
 		const { rows: userRows } = await client.query('select id from users_auth where email = $1 limit 1', [session.user.email])
