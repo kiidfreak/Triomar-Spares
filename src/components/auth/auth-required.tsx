@@ -10,10 +10,10 @@ interface AuthRequiredProps {
 }
 
 export default function AuthRequired({ children, fallback }: AuthRequiredProps) {
-  const { user, loading } = useAuth()
+  const { state } = useAuth()
   const router = useRouter()
 
-  if (loading) {
+  if (state.isLoading) {
     return (
       <div className="flex items-center justify-center py-8">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-500"></div>
@@ -21,7 +21,7 @@ export default function AuthRequired({ children, fallback }: AuthRequiredProps) 
     )
   }
 
-  if (!user) {
+  if (!state.user) {
     if (fallback) {
       return <>{fallback}</>
     }
