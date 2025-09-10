@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, CreditCard, Truck, MapPin, Shield, CheckCircle } from 'lucide-react'
 import { useCart } from '@/components/cart/cart-context'
+import IntaSendPayment from '@/components/payments/intasend-payment'
 import toast from 'react-hot-toast'
 
 const paymentMethods = [
@@ -63,6 +64,8 @@ export default function CheckoutPage() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('mpesa')
   const [selectedShipping, setSelectedShipping] = useState('standard')
   const [isProcessing, setIsProcessing] = useState(false)
+  const [orderId, setOrderId] = useState<string | null>(null)
+  const [showPaymentForm, setShowPaymentForm] = useState(false)
 
   // Form states
   const [shippingInfo, setShippingInfo] = useState({
@@ -129,21 +132,39 @@ export default function CheckoutPage() {
       const res = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items })
+        body: JSON.stringify({ 
+          items,
+          shipping_info: shippingInfo,
+          billing_info: billingInfo,
+          shipping_method: selectedShipping,
+          payment_method: selectedPaymentMethod
+        })
       })
       const data = await res.json()
       if (!res.ok || !data?.ok) {
         throw new Error(data?.error || 'Failed to place order')
       }
-      toast.success('Order placed successfully!')
-      clearCart()
-      // Optionally redirect to orders page
-      // router.push(`/orders/${data.order_id}`)
+      
+      setOrderId(data.order_id)
+      setShowPaymentForm(true)
+      toast.success('Order created! Please complete payment.')
+      
     } catch (error: any) {
       toast.error(error?.message || 'Order failed. Please try again.')
     } finally {
       setIsProcessing(false)
     }
+  }
+
+  const handlePaymentSuccess = (data: any) => {
+    toast.success('Payment completed successfully!')
+    clearCart()
+    // Redirect to success page or orders page
+    // router.push(`/orders/${orderId}`)
+  }
+
+  const handlePaymentError = (error: string) => {
+    toast.error(`Payment failed: ${error}`)
   }
 
   const handleBillingToggle = (sameAsShipping: boolean) => {
@@ -371,41 +392,59 @@ export default function CheckoutPage() {
             </div>
 
             {/* Payment Method */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-semibold mb-4 flex items-center">
-                <Shield className="h-5 w-5 mr-2" />
-                Payment Method
-              </h2>
-              
-              <div className="space-y-3">
-                {paymentMethods.map((method) => (
-                  <label key={method.id} className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-                    <input
-                      type="radio"
-                      name="payment"
-                      value={method.id}
-                      checked={selectedPaymentMethod === method.id}
-                      onChange={(e) => setSelectedPaymentMethod(e.target.value)}
-                      className="mr-3"
-                    />
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                          <span className="text-2xl mr-3">{method.icon}</span>
-                          <div>
-                            <span className="font-medium">{method.name}</span>
-                            {method.popular && (
-                              <span className="ml-2 bg-primary text-white text-xs px-2 py-1 rounded-full">Popular</span>
-                            )}
+            {!showPaymentForm ? (
+              <div className="bg-white rounded-lg shadow-md p-6">
+                <h2 className="text-xl font-semibold mb-4 flex items-center">
+                  <Shield className="h-5 w-5 mr-2" />
+                  Payment Method
+                </h2>
+                
+                <div className="space-y-3">
+                  {paymentMethods.map((method) => (
+                    <label key={method.id} className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                      <input
+                        type="radio"
+                        name="payment"
+                        value={method.id}
+                        checked={selectedPaymentMethod === method.id}
+                        onChange={(e) => setSelectedPaymentMethod(e.target.value)}
+                        className="mr-3"
+                      />
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center">
+                            <span className="text-2xl mr-3">{method.icon}</span>
+                            <div>
+                              <span className="font-medium">{method.name}</span>
+                              {method.popular && (
+                                <span className="ml-2 bg-primary text-white text-xs px-2 py-1 rounded-full">Popular</span>
+                              )}
+                            </div>
                           </div>
                         </div>
+                        <p className="text-sm text-gray-600">{method.description}</p>
                       </div>
-                      <p className="text-sm text-gray-600">{method.description}</p>
-                    </div>
-                  </label>
-                ))}
+                    </label>
+                  ))}
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="bg-white rounded-lg shadow-md p-6">
+                <h2 className="text-xl font-semibold mb-4 flex items-center">
+                  <Shield className="h-5 w-5 mr-2" />
+                  Complete Payment
+                </h2>
+                {orderId && (
+                  <IntaSendPayment
+                    orderId={orderId}
+                    amount={total.toFixed(2)}
+                    currency="KES"
+                    onPaymentSuccess={handlePaymentSuccess}
+                    onPaymentError={handlePaymentError}
+                  />
+                )}
+              </div>
+            )}
           </div>
 
           {/* Order Summary Sidebar */}
@@ -472,12 +511,12 @@ export default function CheckoutPage() {
                 {isProcessing ? (
                   <>
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                    <span>Processing...</span>
+                    <span>Creating Order...</span>
                   </>
                 ) : (
                   <>
                     <CheckCircle className="h-5 w-5" />
-                    <span>Place Order</span>
+                    <span>{showPaymentForm ? 'Order Created' : 'Create Order'}</span>
                   </>
                 )}
               </button>
