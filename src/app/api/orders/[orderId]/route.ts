@@ -38,8 +38,7 @@ export async function GET(
         oi.quantity,
         oi.unit_price,
         oi.total_price,
-        p.name,
-        p.image_url
+        p.name
       FROM order_items oi
       JOIN parts p ON oi.part_id = p.id
       WHERE oi.order_id = $1
@@ -51,7 +50,7 @@ export async function GET(
       name: item.name,
       price: `KSH ${Number(item.unit_price).toLocaleString()}`,
       quantity: item.quantity,
-      image: item.image_url || '/images/placeholder.svg'
+      image: '/images/placeholder.svg'
     }))
 
     const orderDetails = {

@@ -65,6 +65,7 @@ export default function CheckoutPage() {
   const [selectedShipping, setSelectedShipping] = useState('standard')
   const [isProcessing, setIsProcessing] = useState(false)
   const [orderId, setOrderId] = useState<string | null>(null)
+  const [paymentUrl, setPaymentUrl] = useState<string | null>(null)
   const [showPaymentForm, setShowPaymentForm] = useState(false)
 
   // Form states
@@ -146,6 +147,7 @@ export default function CheckoutPage() {
       }
       
       setOrderId(data.order_id)
+      setPaymentUrl(data.payment_url)
       setShowPaymentForm(true)
       toast.success('Order created! Please complete payment.')
       
@@ -527,6 +529,41 @@ export default function CheckoutPage() {
                   🔒 Your payment information is secure and encrypted
                 </p>
               </div>
+
+              {/* Payment URL Display */}
+              {paymentUrl && (
+                <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                  <h3 className="text-sm font-medium text-gray-900 mb-2">Payment Link</h3>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="text"
+                      value={paymentUrl}
+                      readOnly
+                      className="flex-1 text-xs bg-white border border-gray-300 rounded px-2 py-1 text-gray-600"
+                    />
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(paymentUrl)
+                        toast.success('Payment link copied!')
+                      }}
+                      className="px-3 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600 transition-colors"
+                    >
+                      Copy
+                    </button>
+                    <a
+                      href={paymentUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-3 py-1 bg-gray-500 text-white text-xs rounded hover:bg-gray-600 transition-colors"
+                    >
+                      Open
+                    </a>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-2">
+                    Share this link to allow payment from any device
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </form>

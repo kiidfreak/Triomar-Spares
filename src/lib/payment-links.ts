@@ -25,7 +25,7 @@ export interface PaymentLink {
 export function generatePaymentLink(options: PaymentLinkOptions): PaymentLink {
   const { orderId, amount, currency = 'KES', expiresIn } = options
   
-  const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000'
+  const baseUrl = process.env.NEXTAUTH_URL || 'https://www.triomarspares.co.uk'
   const url = `${baseUrl}/pay/${orderId}`
   
   const paymentLink: PaymentLink = {
@@ -47,7 +47,7 @@ export function generatePaymentLink(options: PaymentLinkOptions): PaymentLink {
  * Generate a payment link and return just the URL
  */
 export function getPaymentUrl(orderId: string): string {
-  const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000'
+  const baseUrl = process.env.NEXTAUTH_URL || 'https://www.triomarspares.co.uk'
   return `${baseUrl}/pay/${orderId}`
 }
 
