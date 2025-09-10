@@ -57,7 +57,7 @@ export default function ProductDetailPage() {
   const handleAddToCart = () => {
     if (product) {
       addItem({
-        id: parseInt(product.id) || 0,
+        id: product.id, // Already a string UUID
         name: product.name,
         price: `KSH ${product.price.toLocaleString()}`,
         image: product.image_url || '/images/placeholder.svg',

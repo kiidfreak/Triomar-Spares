@@ -225,7 +225,7 @@ export default function WishlistPage() {
                     console.log('addItem function:', addItem)
                     
                     const cartItem = {
-                      id: parseInt(item.id),
+                      id: item.id, // Already a string UUID
                       name: item.name,
                       price: item.price.toString(),
                       image: item.image,
