@@ -123,7 +123,7 @@ const productCategories = [
 
 const recommendedProducts = [
   {
-    id: 1,
+    id: '844b1711-2f63-475e-8e21-1bd4083b5860',
     name: 'STP Max Cabin Air Filter CAF1907M',
     price: '£31.49',
     rating: 5.0,
@@ -131,7 +131,7 @@ const recommendedProducts = [
     image: '/images/product-2-d.webp'
   },
   {
-    id: 2,
+    id: '469fbe6b-50a7-481b-b59e-a7c15a8d5722',
     name: 'STP Cabin Air Filter CAF1907P',
     price: '£23.99',
     rating: 4.9,
@@ -139,7 +139,7 @@ const recommendedProducts = [
     image: '/images/product-3-d.webp'
   },
   {
-    id: 3,
+    id: 'ba6ec136-a389-425c-8dce-caf5c6a05f7c',
     name: 'Duralast 14in Wiper Blade',
     price: '£13.99',
     rating: 4.3,

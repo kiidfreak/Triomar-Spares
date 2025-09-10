@@ -10,7 +10,7 @@ import Image from 'next/image'
 // Mock wishlist data - in a real app, this would come from an API
 const mockWishlist = [
   {
-    id: '1',
+    id: '844b1711-2f63-475e-8e21-1bd4083b5860',
     name: 'Premium Brake Pads Set',
     brand: 'Brembo',
     price: 89.99,
@@ -24,7 +24,7 @@ const mockWishlist = [
     sku: 'SKU-001'
   },
   {
-    id: '2',
+    id: '469fbe6b-50a7-481b-b59e-a7c15a8d5722',
     name: 'High Performance Air Filter',
     brand: 'K&N',
     price: 45.99,
@@ -38,7 +38,7 @@ const mockWishlist = [
     sku: 'SKU-002'
   },
   {
-    id: '3',
+    id: 'ba6ec136-a389-425c-8dce-caf5c6a05f7c',
     name: 'LED Headlight Bulbs',
     brand: 'Philips',
     price: 67.50,

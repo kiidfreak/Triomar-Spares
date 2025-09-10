@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react'
 
 const deals = [
   {
-    id: 1,
+    id: "844b1711-2f63-475e-8e21-1bd4083b5860",
     title: "STP Filter Bundle Deal",
     description: "Get an STP Air Filter, STP Cabin Air Filter, & STP Extended Life Oil Filter for KSH 4,999",
     originalPrice: "KSH 4,999",
@@ -22,7 +22,7 @@ const deals = [
     sku: "STP-BUNDLE-1"
   },
   {
-    id: 2,
+    id: "469fbe6b-50a7-481b-b59e-a7c15a8d5722",
     title: "STP Regular Filter Bundle",
     description: "Get an STP Air Filter, STP Cabin Air Filter, & STP Oil Filter for KSH 2,799",
     originalPrice: "KSH 3,999",
@@ -35,7 +35,7 @@ const deals = [
     sku: "STP-BUNDLE-2"
   },
   {
-    id: 3,
+    id: "ba6ec136-a389-425c-8dce-caf5c6a05f7c",
     title: "Lucas Fuel Treatment 2-Pack",
     description: "2 for KSH 999 Lucas Fuel Treatment - Must buy 2",
     originalPrice: "KSH 1,798",
