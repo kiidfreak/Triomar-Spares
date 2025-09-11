@@ -27,9 +27,9 @@ export function GarageThemeDemo() {
       </section>
 
       {/* Features Grid */}
-      <section className="py-20">
+      <section className="py-20" style={{backgroundColor: 'rgb(17 24 39/var(--tw-bg-opacity,1))'}}>
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-16 garage-text">
+          <h2 className="text-4xl font-bold text-center mb-16 text-white">
             Why Choose Our Garage?
           </h2>
           

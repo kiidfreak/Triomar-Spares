@@ -68,8 +68,8 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:block">
-            <ul className="flex items-center space-x-6 py-3 text-base font-semibold">
+          <nav className="hidden lg:block mr-8">
+            <ul className="flex items-center space-x-8 py-3 text-base font-semibold">
               <li className="relative group">
                 <button className="flex items-center space-x-1 hover:text-red-400 transition-colors whitespace-nowrap">
                   <span>Our Vehicles</span>
@@ -130,7 +130,7 @@ export function Header() {
           </nav>
 
           {/* Right side actions */}
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center space-x-8">
             {/* Search */}
             <div className="hidden md:block">
               <SearchBar />

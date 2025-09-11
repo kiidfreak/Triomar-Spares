@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { User, LogOut, Settings, Package, Heart, Eye, EyeOff, Mail, Lock } from 'lucide-react'
+import { User, LogOut, Settings, Package, Heart, Eye, EyeOff, Mail, Lock, Shield } from 'lucide-react'
 import { useAuth } from './auth-context'
 import { useAuthModal } from './auth-modal-context'
 import Link from 'next/link'
@@ -273,7 +273,7 @@ export function UserMenu() {
     <div className="relative user-menu-dropdown">
       <button
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        className="flex items-center space-x-2 p-2 hover:bg-muted rounded-md transition-colors"
+        className="flex items-center space-x-2 p-2 hover:bg-muted rounded-md transition-colors text-gray-700 hover:text-gray-900"
       >
         <User className="h-5 w-5" />
         <span className="text-sm font-medium">{state.user.name}</span>
@@ -327,6 +327,18 @@ export function UserMenu() {
                 <Settings className="h-4 w-4 mr-3" />
                 Settings
           </Link>
+              
+              {/* Admin Manage Link */}
+              {state.user?.role === 'admin' && (
+                <Link
+                  href="/admin"
+                  className="flex items-center px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 transition-colors border-t"
+                  onClick={() => setIsDropdownOpen(false)}
+                >
+                  <Shield className="h-4 w-4 mr-3" />
+                  Manage
+                </Link>
+              )}
               
               <div className="border-t">
                 <button
