@@ -71,6 +71,24 @@ export async function POST(req: NextRequest) {
       }, { status: 400 })
     }
 
+    // Validate amount
+    const amount = parseFloat(order.final_amount)
+    if (amount <= 0) {
+      console.error('Invalid order amount:', amount)
+      return NextResponse.json({ 
+        success: false, 
+        error: 'Order amount must be greater than 0' 
+      }, { status: 400 })
+    }
+
+    if (amount < 10) {
+      console.error('Amount below minimum:', amount)
+      return NextResponse.json({ 
+        success: false, 
+        error: 'Minimum payment amount is KES 10' 
+      }, { status: 400 })
+    }
+
     // Prepare M-Pesa payment request
     const mpesaRequest: MpesaPaymentRequest = {
       amount: parseFloat(order.final_amount), // Amount in KES (not cents)
