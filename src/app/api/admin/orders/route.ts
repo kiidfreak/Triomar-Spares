@@ -36,6 +36,7 @@ export async function GET(req: NextRequest) {
         up.last_name,
         up.phone,
         ua.email,
+        ua.name,
         ps.provider as session_payment_method,
         ps.session_data,
         COUNT(oi.id) as items_count
@@ -44,7 +45,7 @@ export async function GET(req: NextRequest) {
       LEFT JOIN users_auth ua ON o.user_id = ua.id
       LEFT JOIN order_items oi ON o.id = oi.order_id
       LEFT JOIN payment_sessions ps ON o.id = ps.order_id
-      GROUP BY o.id, o.total_amount, o.final_amount, o.status, o.payment_transaction_id, o.payment_method, o.payment_status, o.created_at, o.updated_at, up.first_name, up.last_name, up.phone, ua.email, ps.provider, ps.session_data
+      GROUP BY o.id, o.total_amount, o.final_amount, o.status, o.payment_transaction_id, o.payment_method, o.payment_status, o.created_at, o.updated_at, up.first_name, up.last_name, up.phone, ua.email, ua.name, ps.provider, ps.session_data
       ORDER BY o.created_at DESC
       LIMIT $1 OFFSET $2
     `, [limit, offset])
@@ -53,6 +54,7 @@ export async function GET(req: NextRequest) {
       // Extract payment information from session_data
       let sessionPaymentStatus = null
       let sessionPaymentMethod = null
+      let sessionPhoneNumber = null
       
       if (order.session_data) {
         try {
@@ -70,6 +72,11 @@ export async function GET(req: NextRequest) {
           // Get payment method from provider
           if (order.session_payment_method) {
             sessionPaymentMethod = order.session_payment_method.replace('intasend_', '')
+          }
+          
+          // Get phone number from payment session
+          if (sessionData.phone_number) {
+            sessionPhoneNumber = sessionData.phone_number
           }
         } catch (error) {
           console.error('Error parsing session_data:', error)
@@ -90,13 +97,19 @@ export async function GET(req: NextRequest) {
         }
       }
 
+      // Get customer name from users_auth.name or user_profiles
+      let customerName = 'Unknown Customer'
+      if (order.name) {
+        customerName = order.name
+      } else if (order.first_name && order.last_name) {
+        customerName = `${order.first_name} ${order.last_name}`
+      }
+
       return {
         id: order.id,
-        customer_name: order.first_name && order.last_name 
-          ? `${order.first_name} ${order.last_name}` 
-          : 'Unknown Customer',
+        customer_name: customerName,
         customer_email: order.email || 'No email',
-        customer_phone: order.phone || 'No phone',
+        customer_phone: order.phone || sessionPhoneNumber || 'No phone',
         items_count: parseInt(order.items_count || '0'),
         total_amount: parseFloat(order.total_amount || '0'),
         final_amount: parseFloat(order.final_amount || order.total_amount || '0'),
