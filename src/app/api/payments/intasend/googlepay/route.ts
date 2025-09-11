@@ -55,7 +55,8 @@ export async function POST(req: NextRequest) {
       final_amount: order.final_amount
     })
     
-    if (order.status !== 'pending_payment') {
+    // Allow both pending_payment and payment_pending statuses
+    if (!['pending_payment', 'payment_pending'].includes(order.status)) {
       return NextResponse.json({ 
         success: false, 
         error: `Order not ready for payment. Current status: ${order.status}` 

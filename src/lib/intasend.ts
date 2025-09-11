@@ -166,6 +166,7 @@ class IntaSendAPI {
     }
 
     try {
+      // Use the collection.charge method for card payments
       const collection = this.intasend.collection()
       const response = await collection.charge(payload)
       

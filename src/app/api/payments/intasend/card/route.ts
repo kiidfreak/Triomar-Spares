@@ -47,10 +47,12 @@ export async function POST(req: NextRequest) {
 
     const order = rows[0]
     
-    if (order.status !== 'pending_payment') {
+    
+    // Allow both pending_payment and payment_pending statuses
+    if (!['pending_payment', 'payment_pending'].includes(order.status)) {
       return NextResponse.json({ 
         success: false, 
-        error: 'Order not ready for payment' 
+        error: `Order not ready for payment. Current status: ${order.status}` 
       }, { status: 400 })
     }
 
@@ -67,58 +69,116 @@ export async function POST(req: NextRequest) {
     }
 
     // Create card payment session
-    const paymentResponse = await intaSendAPI.createCardPaymentSession(cardRequest)
+    try {
+      const paymentResponse = await intaSendAPI.createCardPaymentSession(cardRequest)
+      
+      // Debug information for response
+      const debugInfo = {
+        full_response: paymentResponse,
+        response_success: paymentResponse.success,
+        response_data: paymentResponse.data,
+        data_keys: paymentResponse.data ? Object.keys(paymentResponse.data) : [],
+        invoice_object: paymentResponse.data?.invoice,
+        url_fields: {
+          'data.url': paymentResponse.data?.url,
+          'data.checkout_url': paymentResponse.data?.checkout_url,
+          'data.payment_url': paymentResponse.data?.payment_url,
+          'invoice.url': paymentResponse.data?.invoice?.url
+        }
+      };
+      
+      if (!paymentResponse.success) {
+        console.error('IntaSend API failed:', paymentResponse.error)
+        return NextResponse.json({ 
+          success: false, 
+          error: paymentResponse.error || 'Failed to create card payment session' 
+        }, { status: 500 })
+      }
+      
+      // Store payment session in database
+      await db.query(`
+        INSERT INTO payment_sessions (order_id, provider, session_data, created_at)
+        VALUES ($1, $2, $3, NOW())
+        ON CONFLICT (order_id, provider) DO UPDATE SET
+          session_data = $3,
+          updated_at = NOW()
+      `, [order_id, 'intasend_card', JSON.stringify({
+        amount: cardRequest.amount,
+        currency: cardRequest.currency,
+        narrative: cardRequest.narrative,
+        account_reference: cardRequest.account_reference,
+        intasend_response: paymentResponse.data
+      })])
 
-    if (!paymentResponse.success) {
-      console.error('Card payment session creation failed:', paymentResponse.error)
+      // Update order status
+      await db.query(`
+        UPDATE orders 
+        SET status = 'payment_pending', 
+            payment_method = 'card',
+            updated_at = NOW()
+        WHERE id = $1
+      `, [order_id])
+
+      // Log payment initiation
+      await db.query(`
+        INSERT INTO payment_logs (order_id, provider, status, transaction_id, response_data, created_at)
+        VALUES ($1, $2, $3, $4, $5, NOW())
+      `, [order_id, 'intasend_card', 'initiated', paymentResponse.data?.invoice?.invoice_id || null, JSON.stringify(paymentResponse.data)])
+
+      // Build payment URL based on IntaSend response
+      let paymentUrl = null;
+      
+      // Try different possible URL fields from IntaSend response
+      if (paymentResponse.data?.invoice?.url) {
+        paymentUrl = paymentResponse.data.invoice.url;
+      } else if (paymentResponse.data?.url) {
+        paymentUrl = paymentResponse.data.url;
+      } else if (paymentResponse.data?.checkout_url) {
+        paymentUrl = paymentResponse.data.checkout_url;
+      } else if (paymentResponse.data?.checkout_id) {
+        // Build IntaSend checkout URL using checkout_id
+        paymentUrl = `https://checkout.intasend.com/checkout/${paymentResponse.data.checkout_id}`;
+      } else if (paymentResponse.data?.id) {
+        // Build IntaSend checkout URL using id
+        paymentUrl = `https://checkout.intasend.com/checkout/${paymentResponse.data.id}`;
+      }
+
+      // Simple test response to see if debug info is working
+      const responseData = {
+        success: true,
+        message: 'Card payment session created successfully',
+        data: {
+          order_id: order_id,
+          amount: order.final_amount,
+          currency: 'KES',
+          payment_url: paymentUrl,
+          invoice_id: paymentResponse.data?.invoice?.invoice_id || paymentResponse.data?.id,
+          checkout_id: paymentResponse.data?.checkout_id || paymentResponse.data?.id,
+          status: 'pending',
+          // Debug: Show what IntaSend actually returned
+          intasend_response: paymentResponse.data,
+          available_fields: paymentResponse.data ? Object.keys(paymentResponse.data) : [],
+          payment_url_attempts: {
+            'invoice.url': paymentResponse.data?.invoice?.url,
+            'data.url': paymentResponse.data?.url,
+            'checkout_url': paymentResponse.data?.checkout_url,
+            'payment_url': paymentResponse.data?.payment_url,
+            'checkout_id': paymentResponse.data?.checkout_id,
+            'id': paymentResponse.data?.id
+          }
+        }
+      };
+
+      console.log('Sending response:', JSON.stringify(responseData, null, 2));
+      return NextResponse.json(responseData)
+      
+    } catch (apiError: any) {
+      console.error('IntaSend API Exception:', apiError.message);
       return NextResponse.json({ 
         success: false, 
-        error: paymentResponse.error || 'Failed to create card payment session' 
+        error: `IntaSend API error: ${apiError.message}` 
       }, { status: 500 })
     }
-
-    // Store payment session in database
-    await db.query(`
-      INSERT INTO payment_sessions (order_id, provider, session_data, created_at)
-      VALUES ($1, $2, $3, NOW())
-      ON CONFLICT (order_id, provider) DO UPDATE SET
-        session_data = $3,
-        updated_at = NOW()
-    `, [order_id, 'intasend_card', JSON.stringify({
-      amount: cardRequest.amount,
-      currency: cardRequest.currency,
-      narrative: cardRequest.narrative,
-      account_reference: cardRequest.account_reference,
-      intasend_response: paymentResponse.data
-    })])
-
-    // Update order status
-    await db.query(`
-      UPDATE orders 
-      SET status = 'payment_pending', 
-          payment_method = 'card',
-          updated_at = NOW()
-      WHERE id = $1
-    `, [order_id])
-
-    // Log payment initiation
-    await db.query(`
-      INSERT INTO payment_logs (order_id, provider, status, transaction_id, response_data, created_at)
-      VALUES ($1, $2, $3, $4, $5, NOW())
-    `, [order_id, 'intasend_card', 'initiated', paymentResponse.data?.invoice?.invoice_id || null, JSON.stringify(paymentResponse.data)])
-
-    return NextResponse.json({
-      success: true,
-      message: 'Card payment session created successfully',
-      data: {
-        order_id: order_id,
-        amount: order.final_amount,
-        currency: 'KES',
-        payment_url: paymentResponse.data?.invoice?.url,
-        invoice_id: paymentResponse.data?.invoice?.invoice_id,
-        status: 'pending'
-      }
-    })
 
   } catch (error: any) {
     console.error('Card payment API error:', error)
