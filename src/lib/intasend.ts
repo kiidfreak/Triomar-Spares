@@ -93,20 +93,20 @@ class IntaSendAPI {
    * Initiate M-Pesa STK Push Payment
    */
   async initiateMpesaPayment(request: MpesaPaymentRequest): Promise<IntaSendResponse> {
+    const payload = {
+      first_name: request.first_name || 'Customer',
+      last_name: request.last_name || 'Name',
+      email: request.email || this.config.businessEmail,
+      host: request.host || process.env.NEXTAUTH_URL || 'https://triomarautospares.co.uk',
+      amount: request.amount,
+      currency: request.currency || 'KES',
+      phone_number: request.phone_number,
+      api_ref: request.account_reference,
+      narrative: request.narrative
+    }
+
     try {
       const collection = this.intasend.collection()
-      
-      const payload = {
-        first_name: request.first_name || 'Customer',
-        last_name: request.last_name || 'Name',
-        email: request.email || this.config.businessEmail,
-        host: request.host || process.env.NEXTAUTH_URL || 'https://triomarautospares.co.uk',
-        amount: request.amount,
-        phone_number: request.phone_number,
-        api_ref: request.account_reference,
-        narrative: request.narrative
-      }
-
       const response = await collection.mpesaStkPush(payload)
       
       return {
@@ -115,6 +115,12 @@ class IntaSendAPI {
       }
     } catch (error: any) {
       console.error('M-Pesa STK Push Error:', error)
+      console.error('Error details:', {
+        message: error.message,
+        status: error.response?.status,
+        data: error.response?.data,
+        payload: payload
+      })
       return {
         success: false,
         error: error.message || 'Failed to initiate M-Pesa payment'
