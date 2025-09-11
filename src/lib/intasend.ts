@@ -78,7 +78,7 @@ class IntaSendAPI {
       businessName: process.env.BUSINESS_NAME || 'Triomar AutoSpares',
       businessPhone: process.env.BUSINESS_PHONE || '+254700000000',
       businessEmail: process.env.BUSINESS_EMAIL || 'info@triomarautospares.com',
-      isLive: process.env.NODE_ENV === 'production'
+      isLive: false // Using test mode for now - change to true when ready for live payments
     }
 
     // Initialize IntaSend SDK
@@ -100,7 +100,7 @@ class IntaSendAPI {
         first_name: request.first_name || 'Customer',
         last_name: request.last_name || 'Name',
         email: request.email || this.config.businessEmail,
-        host: request.host || process.env.NEXTAUTH_URL || 'https://triomarautospares.com',
+        host: request.host || process.env.NEXTAUTH_URL || 'https://triomarautospares.co.uk',
         amount: request.amount,
         phone_number: request.phone_number,
         api_ref: request.account_reference,
@@ -126,19 +126,19 @@ class IntaSendAPI {
    * Create Card Payment Session
    */
   async createCardPaymentSession(request: CardPaymentRequest): Promise<IntaSendResponse> {
+    const payload = {
+      first_name: request.first_name || 'Customer',
+      last_name: request.last_name || 'Name',
+      email: request.email || this.config.businessEmail,
+      host: request.host || process.env.NEXTAUTH_URL || 'https://triomarautospares.co.uk',
+      amount: request.amount,
+      currency: request.currency || 'KES',
+      api_ref: request.account_reference,
+      narrative: request.narrative
+    }
+
     try {
       const collection = this.intasend.collection()
-      
-      const payload = {
-        first_name: request.first_name || 'Customer',
-        last_name: request.last_name || 'Name',
-        email: request.email || this.config.businessEmail,
-        host: request.host || process.env.NEXTAUTH_URL || 'https://triomarautospares.com',
-        amount: request.amount,
-        api_ref: request.account_reference,
-        narrative: request.narrative
-      }
-
       const response = await collection.charge(payload)
       
       return {
@@ -147,6 +147,12 @@ class IntaSendAPI {
       }
     } catch (error: any) {
       console.error('Card Payment Error:', error)
+      console.error('Error details:', {
+        message: error.message,
+        status: error.response?.status,
+        data: error.response?.data,
+        payload: payload
+      })
       return {
         success: false,
         error: error.message || 'Failed to create card payment session'
@@ -165,8 +171,9 @@ class IntaSendAPI {
         first_name: request.first_name || 'Customer',
         last_name: request.last_name || 'Name',
         email: request.email || this.config.businessEmail,
-        host: request.host || process.env.NEXTAUTH_URL || 'https://triomarautospares.com',
+        host: request.host || process.env.NEXTAUTH_URL || 'https://triomarautospares.co.uk',
         amount: request.amount,
+        currency: request.currency || 'KES',
         api_ref: request.account_reference,
         narrative: request.narrative,
         payment_methods: ['card', 'google_pay'] // Enable both card and Google Pay
