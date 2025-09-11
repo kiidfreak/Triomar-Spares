@@ -45,6 +45,7 @@ export async function POST(req: NextRequest) {
       : `254${cleanPhone.substring(1)}`
 
     // Get order details
+    console.log('Looking up order:', order_id, 'for user:', session.user.email)
     const { rows } = await db.query(`
       SELECT o.id, o.final_amount, o.status, o.user_id, u.email, u.name
       FROM orders o 
@@ -53,6 +54,7 @@ export async function POST(req: NextRequest) {
     `, [order_id, session.user.email])
 
     if (rows.length === 0) {
+      console.error('Order not found for:', order_id, 'user:', session.user.email)
       return NextResponse.json({ 
         success: false, 
         error: 'Order not found' 
@@ -60,6 +62,7 @@ export async function POST(req: NextRequest) {
     }
 
     const order = rows[0]
+    console.log('Order found:', order)
     
     if (order.status !== 'pending_payment') {
       return NextResponse.json({ 
@@ -78,14 +81,16 @@ export async function POST(req: NextRequest) {
       first_name: order.name?.split(' ')[0] || 'Customer',
       last_name: order.name?.split(' ').slice(1).join(' ') || 'Name',
       email: order.email,
-      host: process.env.NEXTAUTH_URL || 'https://triomarautospares.com'
+      host: process.env.NEXTAUTH_URL || 'https://triomarautospares.co.uk'
     }
 
     // Initiate M-Pesa payment
+    console.log('M-Pesa request payload:', mpesaRequest)
     const paymentResponse = await intaSendAPI.initiateMpesaPayment(mpesaRequest)
 
     if (!paymentResponse.success) {
       console.error('M-Pesa payment initiation failed:', paymentResponse.error)
+      console.error('Full payment response:', paymentResponse)
       return NextResponse.json({ 
         success: false, 
         error: paymentResponse.error || 'Failed to initiate M-Pesa payment' 
