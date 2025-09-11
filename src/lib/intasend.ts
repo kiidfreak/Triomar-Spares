@@ -229,6 +229,8 @@ class IntaSendAPI {
     try {
       const response = await this.intasend.collection().status(accountReference)
       
+      console.log('IntaSend status check for', accountReference, ':', response)
+      
       return {
         success: true,
         data: response

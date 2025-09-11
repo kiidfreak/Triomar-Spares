@@ -29,6 +29,7 @@ export async function POST(req: NextRequest) {
       invoice_id, 
       api_ref, 
       status, 
+      state,
       amount, 
       currency, 
       phone_number,
@@ -45,11 +46,15 @@ export async function POST(req: NextRequest) {
       }, { status: 400 })
     }
 
+    // Use state field if status is not available (IntaSend uses 'state' field)
+    const paymentState = state || status
+    console.log('Payment state from webhook:', paymentState)
+
     // Map IntaSend status to our order status
     let orderStatus = 'pending'
     let paymentStatus = 'pending'
     
-    switch (status?.toUpperCase()) {
+    switch (paymentState?.toUpperCase()) {
       case 'COMPLETE':
       case 'COMPLETED':
         orderStatus = 'confirmed'

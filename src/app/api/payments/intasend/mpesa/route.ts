@@ -245,18 +245,50 @@ export async function GET(req: NextRequest) {
       sessionData = null
     }
 
-    // Check payment status with IntaSend
-    if (sessionData?.account_reference) {
+    // Check if we have webhook data first (more reliable than API call)
+    if (sessionData?.webhook_data?.state) {
+      const webhookState = sessionData.webhook_data.state.toUpperCase()
+      console.log('Found webhook data with state:', webhookState)
+      
+      let newStatus = order.status
+      if (webhookState === 'COMPLETE' || webhookState === 'COMPLETED') {
+        newStatus = 'confirmed'
+      } else if (webhookState === 'FAILED') {
+        newStatus = 'payment_failed'
+      }
+
+      console.log(`Status update from webhook: ${order.status} → ${newStatus} (Webhook: ${webhookState})`)
+
+      if (newStatus !== order.status) {
+        await db.query(`
+          UPDATE orders 
+          SET status = $1, 
+              updated_at = NOW()
+          WHERE id = $2
+        `, [newStatus, order_id])
+      }
+    } else if (sessionData?.account_reference) {
+      // Fallback to API call if no webhook data
       const statusResponse = await intaSendAPI.checkPaymentStatus(sessionData.account_reference)
       
       if (statusResponse.success && statusResponse.data) {
+        console.log('IntaSend status response:', statusResponse.data)
+        
         // Update order status based on IntaSend response
         let newStatus = order.status
-        if (statusResponse.data.status === 'completed') {
+        const intaSendStatus = statusResponse.data.status?.toLowerCase()
+        
+        if (intaSendStatus === 'completed' || intaSendStatus === 'success') {
           newStatus = 'confirmed'
-        } else if (statusResponse.data.status === 'failed') {
+        } else if (intaSendStatus === 'failed' || 
+                   intaSendStatus === 'insufficient_funds' ||
+                   intaSendStatus === 'declined' ||
+                   intaSendStatus === 'cancelled' ||
+                   intaSendStatus === 'timeout') {
           newStatus = 'payment_failed'
         }
+
+        console.log(`Status update: ${order.status} → ${newStatus} (IntaSend: ${intaSendStatus})`)
 
         if (newStatus !== order.status) {
           await db.query(`
