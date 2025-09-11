@@ -530,6 +530,30 @@ export default function CheckoutPage() {
                 </p>
               </div>
 
+              {/* IntaSend Trust Badge - Always Visible */}
+              <div className="mt-4 text-center">
+                <div style={{display: 'block', textAlign: 'center'}}>
+                  <a href="https://intasend.com/security" target="_blank" rel="noopener noreferrer">
+                    <img 
+                      src="https://intasend-prod-static.s3.amazonaws.com/img/trust-badges/intasend-trust-badge-v-light.png" 
+                      width="300px" 
+                      alt="IntaSend Secure Payments (PCI-DSS Compliant)"
+                      className="mx-auto"
+                    />
+                  </a>
+                  <strong>
+                    <a 
+                      style={{display: 'block', color: '#454545', textDecoration: 'none', fontSize: '0.7em', marginTop: '0.4em'}} 
+                      href="https://intasend.com/security" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                    >
+                      Secured by IntaSend Payments
+                    </a>
+                  </strong>
+                </div>
+              </div>
+
               {/* Payment URL Display */}
               {paymentUrl && (
                 <div className="mt-4 p-4 bg-gray-50 rounded-lg">
@@ -562,6 +586,32 @@ export default function CheckoutPage() {
                   <p className="text-xs text-gray-500 mt-2">
                     Share this link to allow payment from any device
                   </p>
+                </div>
+              )}
+
+              {/* IntaSend Trust Badge */}
+              {showPaymentForm && (
+                <div className="mt-6 text-center">
+                  <div style={{display: 'block', textAlign: 'center'}}>
+                    <a href="https://intasend.com/security" target="_blank" rel="noopener noreferrer">
+                      <img 
+                        src="https://intasend-prod-static.s3.amazonaws.com/img/trust-badges/intasend-trust-badge-v-light.png" 
+                        width="375px" 
+                        alt="IntaSend Secure Payments (PCI-DSS Compliant)"
+                        className="mx-auto"
+                      />
+                    </a>
+                    <strong>
+                      <a 
+                        style={{display: 'block', color: '#454545', textDecoration: 'none', fontSize: '0.8em', marginTop: '0.6em'}} 
+                        href="https://intasend.com/security" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                      >
+                        Secured by IntaSend Payments
+                      </a>
+                    </strong>
+                  </div>
                 </div>
               )}
             </div>
