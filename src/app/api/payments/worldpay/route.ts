@@ -70,7 +70,7 @@ export async function GET(req: NextRequest) {
     await db.query(`
       INSERT INTO payment_sessions (order_id, provider, session_data, created_at)
       VALUES ($1, $2, $3, NOW())
-      ON CONFLICT (order_id) DO UPDATE SET
+      ON CONFLICT (order_id, provider) DO UPDATE SET
         session_data = $3,
         updated_at = NOW()
     `, [orderId, 'worldpay', JSON.stringify(paymentData)])

@@ -47,10 +47,18 @@ export async function POST(req: NextRequest) {
 
     const order = rows[0]
     
+    // Debug logging
+    console.log('Order status check:', {
+      order_id: order_id,
+      current_status: order.status,
+      expected_status: 'pending_payment',
+      final_amount: order.final_amount
+    })
+    
     if (order.status !== 'pending_payment') {
       return NextResponse.json({ 
         success: false, 
-        error: 'Order not ready for payment' 
+        error: `Order not ready for payment. Current status: ${order.status}` 
       }, { status: 400 })
     }
 
@@ -81,7 +89,7 @@ export async function POST(req: NextRequest) {
     await db.query(`
       INSERT INTO payment_sessions (order_id, provider, session_data, created_at)
       VALUES ($1, $2, $3, NOW())
-      ON CONFLICT (order_id) DO UPDATE SET
+      ON CONFLICT (order_id, provider) DO UPDATE SET
         session_data = $3,
         updated_at = NOW()
     `, [order_id, 'intasend_googlepay', JSON.stringify({

@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
 				billing_address,
 				total_amount, 
 				final_amount
-			) values ($1, $2, $3, $4, $5, $6, $7, 0, 0) returning id
+			) values ($1, $2, $3, $4, $5, $6, $7, 0, 0) returning id, status
 		`, [
 			userId, 
 			orderNumber,
@@ -85,6 +85,9 @@ export async function POST(req: NextRequest) {
 			shippingAddress,
 			billingAddress
 		])
+		
+		// Debug: Log the created order status
+		console.log('Order created with status:', orderRows[0].status, 'Expected:', initialStatus)
 		const orderId = orderRows[0].id
 
 		for (const it of items) {
@@ -100,6 +103,16 @@ export async function POST(req: NextRequest) {
 		}
 
 		// Trigger calculates totals via existing trigger after items inserted
+		
+		// Verify order status after trigger execution
+		const { rows: statusCheck } = await client.query('SELECT status FROM orders WHERE id = $1', [orderId])
+		console.log('Order status after trigger:', statusCheck[0].status)
+		
+		// Ensure status is still correct for payment methods
+		if (payment_method !== 'cod' && statusCheck[0].status !== 'pending_payment') {
+			console.log('Fixing order status after trigger...')
+			await client.query('UPDATE orders SET status = $1 WHERE id = $2', ['pending_payment', orderId])
+		}
 
 		// Clear server-side cart now that items are in an order (if table exists)
 		try {
