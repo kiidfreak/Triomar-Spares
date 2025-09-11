@@ -115,15 +115,37 @@ class IntaSendAPI {
       }
     } catch (error: any) {
       console.error('M-Pesa STK Push Error:', error)
+      
+      // Parse error response if it's a buffer
+      let errorData = error.response?.data
+      if (Buffer.isBuffer(errorData)) {
+        try {
+          errorData = JSON.parse(errorData.toString())
+        } catch (parseError) {
+          errorData = errorData.toString()
+        }
+      }
+      
       console.error('Error details:', {
         message: error.message,
         status: error.response?.status,
-        data: error.response?.data,
+        data: errorData,
         payload: payload
       })
+      
+      // Extract meaningful error message
+      let errorMessage = error.message || 'Failed to initiate M-Pesa payment'
+      if (errorData && typeof errorData === 'object') {
+        if (errorData.errors && Array.isArray(errorData.errors) && errorData.errors.length > 0) {
+          errorMessage = errorData.errors[0].message || errorData.errors[0].code || errorMessage
+        } else if (errorData.message) {
+          errorMessage = errorData.message
+        }
+      }
+      
       return {
         success: false,
-        error: error.message || 'Failed to initiate M-Pesa payment'
+        error: errorMessage
       }
     }
   }

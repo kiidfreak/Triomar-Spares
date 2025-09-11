@@ -89,15 +89,13 @@ export default function IntaSendPayment({
         throw new Error(data.error || 'Failed to initiate M-Pesa payment')
       }
 
-      toast.success('M-Pesa payment initiated! Check your phone for STK Push.')
-      setPaymentStatus('success')
+      toast.success('M-Pesa STK push sent! Please check your phone and enter your PIN to complete payment.')
+      setPaymentStatus('pending')
       
       // Start polling for payment status
       pollPaymentStatus()
       
-      if (onPaymentSuccess) {
-        onPaymentSuccess(data.data)
-      }
+      // Don't call onPaymentSuccess yet - wait for actual payment completion
 
     } catch (error: any) {
       console.error('M-Pesa payment error:', error)
@@ -408,7 +406,7 @@ export default function IntaSendPayment({
           <span>
             {paymentStatus === 'success' && 'Payment completed successfully!'}
             {paymentStatus === 'error' && 'Payment failed. Please try again.'}
-            {paymentStatus === 'pending' && 'Processing payment...'}
+            {paymentStatus === 'pending' && 'Waiting for payment confirmation. Please check your phone and complete the M-Pesa transaction.'}
           </span>
         </div>
       )}

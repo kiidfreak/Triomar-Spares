@@ -13,6 +13,12 @@ export async function POST(req: NextRequest) {
     // Check authentication
     const rawSession = await getServerSession(authOptions as any)
     const session = rawSession as any
+    console.log('Session check:', { 
+      hasSession: !!rawSession, 
+      hasUser: !!session?.user, 
+      hasEmail: !!session?.user?.email,
+      email: session?.user?.email 
+    })
     if (!session?.user?.email) {
       return NextResponse.json({ 
         success: false, 
@@ -43,6 +49,9 @@ export async function POST(req: NextRequest) {
     let formattedPhone
     if (cleanPhone.startsWith('254')) {
       formattedPhone = cleanPhone
+    } else if (cleanPhone.startsWith('0254')) {
+      // Handle case where phone starts with 0254 (already has country code)
+      formattedPhone = cleanPhone.substring(1) // Remove the 0, keep 254...
     } else if (cleanPhone.startsWith('0')) {
       formattedPhone = `254${cleanPhone.substring(1)}`
     } else {
@@ -123,20 +132,24 @@ export async function POST(req: NextRequest) {
     }
 
     // Store payment session in database
-    await db.query(`
-      INSERT INTO payment_sessions (order_id, provider, session_data, created_at)
-      VALUES ($1, $2, $3, NOW())
-      ON CONFLICT (order_id) DO UPDATE SET
-        session_data = $3,
-        updated_at = NOW()
-    `, [order_id, 'intasend_mpesa', JSON.stringify({
+    const sessionData = {
       phone_number: formattedPhone,
       amount: mpesaRequest.amount,
       currency: mpesaRequest.currency,
       narrative: mpesaRequest.narrative,
       account_reference: mpesaRequest.account_reference,
       intasend_response: paymentResponse.data
-    })])
+    }
+    
+    console.log('Storing session data:', sessionData)
+    
+    await db.query(`
+      INSERT INTO payment_sessions (order_id, provider, session_data, created_at)
+      VALUES ($1, $2, $3, NOW())
+      ON CONFLICT (order_id, provider) DO UPDATE SET
+        session_data = $3,
+        updated_at = NOW()
+    `, [order_id, 'intasend_mpesa', JSON.stringify(sessionData)])
 
     // Update order status
     await db.query(`
@@ -148,21 +161,26 @@ export async function POST(req: NextRequest) {
     `, [order_id])
 
     // Log payment initiation
+    const logData = paymentResponse.data
+    console.log('Logging payment data:', logData)
+    
     await db.query(`
       INSERT INTO payment_logs (order_id, provider, status, transaction_id, response_data, created_at)
       VALUES ($1, $2, $3, $4, $5, NOW())
-    `, [order_id, 'intasend_mpesa', 'initiated', paymentResponse.data?.transaction_id || null, JSON.stringify(paymentResponse.data)])
+    `, [order_id, 'intasend_mpesa', 'initiated', logData?.transaction_id || null, JSON.stringify(logData)])
 
     return NextResponse.json({
       success: true,
-      message: 'M-Pesa payment initiated successfully',
+      message: 'M-Pesa STK push sent. Please check your phone and complete the payment.',
       data: {
         order_id: order_id,
         phone_number: formattedPhone,
         amount: order.final_amount,
         currency: 'KES',
         transaction_id: paymentResponse.data?.transaction_id,
-        status: 'pending'
+        status: 'pending',
+        requires_user_action: true,
+        instructions: 'Check your phone for M-Pesa prompt and enter your PIN to complete payment'
       }
     })
 
@@ -217,7 +235,15 @@ export async function GET(req: NextRequest) {
     }
 
     const order = rows[0]
-    const sessionData = order.session_data ? JSON.parse(order.session_data) : null
+    let sessionData = null
+    try {
+      sessionData = order.session_data ? 
+        (typeof order.session_data === 'string' ? JSON.parse(order.session_data) : order.session_data) 
+        : null
+    } catch (error) {
+      console.error('Error parsing session_data:', error)
+      sessionData = null
+    }
 
     // Check payment status with IntaSend
     if (sessionData?.account_reference) {
