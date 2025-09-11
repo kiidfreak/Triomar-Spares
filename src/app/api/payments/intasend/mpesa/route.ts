@@ -40,9 +40,16 @@ export async function POST(req: NextRequest) {
     }
 
     // Format phone number for M-Pesa (254XXXXXXXXX)
-    const formattedPhone = cleanPhone.startsWith('254') 
-      ? cleanPhone 
-      : `254${cleanPhone.substring(1)}`
+    let formattedPhone
+    if (cleanPhone.startsWith('254')) {
+      formattedPhone = cleanPhone
+    } else if (cleanPhone.startsWith('0')) {
+      formattedPhone = `254${cleanPhone.substring(1)}`
+    } else {
+      formattedPhone = `254${cleanPhone}`
+    }
+    
+    console.log('Phone formatting - Original:', phone_number, 'Cleaned:', cleanPhone, 'Formatted:', formattedPhone)
 
     // Get order details
     console.log('Looking up order:', order_id, 'for user:', session.user.email)
