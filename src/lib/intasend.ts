@@ -162,7 +162,8 @@ class IntaSendAPI {
       amount: request.amount,
       currency: request.currency || 'KES',
       api_ref: request.account_reference,
-      narrative: request.narrative
+      narrative: request.narrative,
+      payment_methods: ['card', 'google_pay'] // Enable both card and Google Pay
     }
 
     try {
