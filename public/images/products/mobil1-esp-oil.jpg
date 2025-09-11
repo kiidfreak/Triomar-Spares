@@ -1,0 +1,20 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="#f3f4f6"/>
+  <g transform="translate(200,150)">
+    <!-- Oil bottle -->
+    <rect x="-30" y="-90" width="60" height="180" fill="#dc2626" rx="8"/>
+    <!-- Mobil 1 logo -->
+    <rect x="-25" y="-70" width="50" height="40" fill="#ffffff" rx="5"/>
+    <text x="0" y="-55" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#dc2626">MOBIL 1</text>
+    <!-- ESP branding -->
+    <rect x="-20" y="-30" width="40" height="25" fill="#1f2937" rx="3"/>
+    <text x="0" y="-15" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#ffffff">ESP</text>
+    <!-- Oil type label -->
+    <rect x="-20" y="5" width="40" height="25" fill="#ffffff" rx="3"/>
+    <text x="0" y="20" text-anchor="middle" font-family="Arial" font-size="12" fill="#dc2626">0W-30</text>
+    <!-- Volume indicator -->
+    <rect x="-25" y="40" width="50" height="100" fill="#ef4444" rx="5"/>
+    <text x="0" y="95" text-anchor="middle" font-family="Arial" font-size="14" fill="#ffffff">5L</text>
+  </g>
+  <text x="200" y="280" text-anchor="middle" font-family="Arial" font-size="16" fill="#6b7280">Mobil 1 ESP</text>
+</svg>

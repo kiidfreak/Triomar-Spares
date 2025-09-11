@@ -139,7 +139,7 @@ class IntaSendAPI {
         narrative: request.narrative
       }
 
-      const response = await collection.card(payload)
+      const response = await collection.charge(payload)
       
       return {
         success: true,
@@ -172,7 +172,7 @@ class IntaSendAPI {
         payment_methods: ['card', 'google_pay'] // Enable both card and Google Pay
       }
 
-      const response = await collection.card(payload)
+      const response = await collection.charge(payload)
       
       return {
         success: true,
